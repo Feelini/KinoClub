@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Kinoclub</string>
+    <string name="toolbar_text">Киноклуб</string>
+    <string name="series_update">Обновления сериалов</string>
+</resources>
