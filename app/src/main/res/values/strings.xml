@@ -3,4 +3,14 @@
     <string name="toolbar_text">Киноклуб</string>
     <string name="series_update">Обновления сериалов</string>
     <string name="series_update_list_text">%1$s сезон %2$s серия</string>
+    <string name="category">Категория: %1$s</string>
+    <string name="year">Год выпуска: %1$s</string>
+    <string name="countries">Страна: %1$s</string>
+    <string name="genres">Жанр: %1$s</string>
+    <string name="qualites">Качество: %1$s</string>
+    <string name="translations">Перевод: %1$s</string>
+    <string name="duration">Продолжительность: %1$s</string>
+    <string name="composers">Композитор: %1$s</string>
+    <string name="actors">Актеры: %1$s</string>
+    <string name="directors">Режиссёр: %1$s</string>
 </resources>

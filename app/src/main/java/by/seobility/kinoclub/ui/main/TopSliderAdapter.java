@@ -20,9 +20,15 @@ import by.seobility.kinoclub.repo.models.Film;
 public class TopSliderAdapter extends RecyclerView.Adapter<TopSliderAdapter.TopSliderViewHolder> {
 
     private List<Film> films;
+    OnFilmClickListener onFilmClickListener;
 
-    public TopSliderAdapter(List<Film> films) {
+    public TopSliderAdapter(List<Film> films, OnFilmClickListener onFilmClickListener) {
         this.films = films;
+        this.onFilmClickListener = onFilmClickListener;
+    }
+
+    public interface OnFilmClickListener{
+        void onFilmClick(Film film);
     }
 
     @NonNull
@@ -53,6 +59,11 @@ public class TopSliderAdapter extends RecyclerView.Adapter<TopSliderAdapter.TopS
         }
 
         public void bindData(Film film) {
+            itemView.setOnClickListener(v -> {
+                if (onFilmClickListener != null){
+                    onFilmClickListener.onFilmClick(film);
+                }
+            });
             Picasso.get().load(film.getPoster()).into(poster);
         }
     }

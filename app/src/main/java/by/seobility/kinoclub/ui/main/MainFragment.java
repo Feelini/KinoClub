@@ -3,7 +3,6 @@ package by.seobility.kinoclub.ui.main;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,9 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.transition.AutoTransition;
-import androidx.transition.ChangeBounds;
-import androidx.transition.TransitionManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,8 +84,6 @@ public class MainFragment extends Fragment {
             seriesUpdateExpandable.toggle();
             SeriesUpdateAdapter adapter = (SeriesUpdateAdapter) viewSeriesUpdate.getAdapter();
             Boolean isExpanded = adapter.isExpanded();
-//            TransitionManager.beginDelayedTransition(viewSeriesUpdate, new AutoTransition());
-//            viewSeriesUpdate.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
             seriesUpdateIcon.setImageResource(isExpanded ? R.drawable.add : R.drawable.remove);
             adapter.setExpanded(!isExpanded);
         });
@@ -104,16 +98,17 @@ public class MainFragment extends Fragment {
     }
 
     private void showTopSlider(FilmsList filmsList) {
-        topSliderAdapter = new TopSliderAdapter(filmsList.getData());
+        topSliderAdapter = new TopSliderAdapter(filmsList.getData(), (TopSliderAdapter.OnFilmClickListener) getContext());
         viewTopSlider.setAdapter(topSliderAdapter);
         viewTopSlider.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
     }
 
     private void showSeriesUpdate(FilmsList filmsList) {
-        seriesUpdateAdapter = new SeriesUpdateAdapter(filmsList.getData());
+        seriesUpdateAdapter = SeriesUpdateAdapter.getInstance(filmsList.getData());
+        seriesUpdateIcon.setImageResource(seriesUpdateAdapter.isExpanded() ? R.drawable.remove : R.drawable.add);
         viewSeriesUpdate.setAdapter(seriesUpdateAdapter);
         viewSeriesUpdate.setLayoutManager(new GridLayoutManager(getContext(), 2));
         viewSeriesUpdate.setNestedScrollingEnabled(false);
-        viewSeriesUpdate.addItemDecoration(new SpacesItemDecoration(20));
+        viewSeriesUpdate.addItemDecoration(new SpacesItemDecoration(0, 2));
     }
 }

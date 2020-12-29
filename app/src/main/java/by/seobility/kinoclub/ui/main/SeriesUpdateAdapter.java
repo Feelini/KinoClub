@@ -21,8 +21,16 @@ import by.seobility.kinoclub.repo.models.Film;
 public class SeriesUpdateAdapter extends RecyclerView.Adapter<SeriesUpdateAdapter.SeriesUpdateViewHolder>{
     private List<Film> films;
     private Boolean expanded;
+    private static SeriesUpdateAdapter instance;
 
-    public SeriesUpdateAdapter(List<Film> films) {
+    public static SeriesUpdateAdapter getInstance(List<Film> films){
+        if (instance == null){
+            instance = new SeriesUpdateAdapter(films);
+        }
+        return instance;
+    }
+
+    private SeriesUpdateAdapter(List<Film> films) {
         this.films = films;
         this.expanded = false;
     }

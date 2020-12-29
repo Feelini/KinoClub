@@ -6,7 +6,7 @@ public class Film {
     private long id;
     private String title;
     private String description;
-    private long cat_id;
+    private String cat;
     private String poster;
     private String poster_md;
     private String year;
@@ -25,7 +25,7 @@ public class Film {
     private List<String> qualites;
     private List<String> translations;
 
-    public Film(long id, String title, String description, long cat_id, String poster,
+    public Film(long id, String title, String description, String cat, String poster,
                 String poster_md, String year, String rating, String iframe, String trailer,
                 String duration, String updated, String created, List<String> actors,
                 List<String> directors, List<String> composers, List<String> countries,
@@ -34,7 +34,7 @@ public class Film {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.cat_id = cat_id;
+        this.cat = cat;
         this.poster = poster;
         this.poster_md = poster_md;
         this.year = year;
@@ -78,12 +78,12 @@ public class Film {
         this.description = description;
     }
 
-    public long getCat_id() {
-        return cat_id;
+    public String getCat() {
+        return cat;
     }
 
-    public void setCat_id(long cat_id) {
-        this.cat_id = cat_id;
+    public void setCat(String cat) {
+        this.cat = cat;
     }
 
     public String getPoster() {

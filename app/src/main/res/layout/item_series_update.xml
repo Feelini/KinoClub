@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/series_update_list_image"
-        android:layout_width="170dp"
-        android:layout_height="245dp"
+        android:layout_width="@dimen/poster_medium_width"
+        android:layout_height="@dimen/poster_medium_height"
         android:scaleType="centerCrop"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,8 +19,8 @@
         android:id="@+id/series_update_list_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="5dp"
-        android:paddingEnd="5dp"
+        android:paddingStart="@dimen/corner_radius"
+        android:paddingEnd="@dimen/corner_radius"
         android:textColor="@color/white"
         android:fontFamily="@font/montserrat_bold"
         android:background="@drawable/rounded_orange_background"

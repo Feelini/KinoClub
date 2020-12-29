@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/dark_grey"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/toolbar_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="@string/toolbar_text"
+            android:textAllCaps="true"
+            android:textColor="@color/orange"
+            android:textSize="@dimen/toolbar_text_size"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/margin">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/top_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin"
+                android:padding="@dimen/padding"
+                android:background="@drawable/rounded_gray_background"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/series_update"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/row_height"
+                android:layout_margin="@dimen/margin"
+                android:background="@drawable/rounded_gray_background"
+                app:layout_constraintTop_toBottomOf="@id/top_slider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:id="@+id/series_update_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="@string/series_update"
+                    android:textColor="@color/white"
+                    android:paddingStart="@dimen/padding"
+                    android:textSize="@dimen/text_size"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/series_update_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/add"
+                    app:tint="@color/white"
+                    android:paddingEnd="@dimen/padding"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/series_update_expandable"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/series_update"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:el_duration="1000"
+                app:el_expanded="false"
+                app:el_parallax="0.5">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/series_update_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/margin"/>
+
+            </net.cachapa.expandablelayout.ExpandableLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/film_layer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/margin"
+                android:background="@drawable/rounded_white_gray_border"
+                app:layout_constraintTop_toBottomOf="@id/series_update_expandable"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:id="@+id/film_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="Падение ангела"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size"
+                    android:layout_marginTop="@dimen/margin"
+                    android:paddingStart="@dimen/padding"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/film_poster"
+                    android:layout_width="@dimen/poster_big_width"
+                    android:layout_height="@dimen/poster_big_height"
+                    android:scaleType="centerCrop"
+                    android:padding="@dimen/padding"
+                    app:layout_constraintTop_toBottomOf="@id/film_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <LinearLayout
+                    android:id="@+id/film_rate_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/film_poster">
+
+                    <ImageView
+                        android:id="@+id/film_rate_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/star_rate"
+                        app:tint="@color/orange" />
+
+                    <TextView
+                        android:id="@+id/film_rate_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/padding"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textSize="@dimen/text_size"
+                        android:layout_gravity="center_vertical"
+                        tools:text="8.5"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/film_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/padding"
+                    android:paddingEnd="@dimen/padding"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/category"
+                    android:textColor="@color/white_text_grey"
+                    android:textSize="@dimen/text_size"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/film_rate_layout"/>
+
+                <TextView
+                    android:id="@+id/film_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/padding"
+                    android:paddingEnd="@dimen/padding"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/year"
+                    android:textColor="@color/white_text_grey"
+                    android:textSize="@dimen/text_size"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/film_category"/>
+
+                <TextView
+                    android:id="@+id/film_countries"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/countries"
+                    android:textColor="@color/white_text_grey"
+                    android:textSize="@dimen/text_size"
+                    android:paddingStart="@dimen/padding"
+                    android:paddingEnd="@dimen/padding"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/film_year"/>
+
+                <TextView
+                    android:id="@+id/film_genres"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/genres"
+                    android:textColor="@color/white_text_grey"
+                    android:textSize="@dimen/text_size"
+                    android:paddingStart="@dimen/padding"
+                    android:paddingEnd="@dimen/padding"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/film_countries"/>
+
+                <TextView
+                    android:id="@+id/film_qualities"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/qualites"
+                    android:textColor="@color/white_text_grey"
+                    android:textSize="@dimen/text_size"
+                    android:paddingStart="@dimen/padding"
+                    android:paddingEnd="@dimen/padding"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/film_genres"/>
+
+                <TextView
+                    android:id="@+id/film_translations"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/translations"
+                    android:textColor="@color/white_text_grey"
+                    android:textSize="@dimen/text_size"
+                    android:paddingStart="@dimen/padding"
+                    android:paddingEnd="@dimen/padding"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/film_qualities"/>
+
+                <TextView
+                    android:id="@+id/film_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/duration"
+                    android:textColor="@color/white_text_grey"
+                    android:textSize="@dimen/text_size"
+                    android:paddingStart="@dimen/padding"
+                    android:paddingEnd="@dimen/padding"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/film_translations"/>
+
+                <View
+                    android:id="@+id/empty_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/film_duration"/>
+
+                <TextView
+                    android:id="@+id/film_composers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/composers"
+                    android:textColor="@color/white_text_grey"
+                    android:textSize="@dimen/text_size"
+                    android:paddingStart="@dimen/padding"
+                    android:paddingEnd="@dimen/padding"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/empty_row"/>
+
+                <TextView
+                    android:id="@+id/film_actors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/actors"
+                    android:textColor="@color/white_text_grey"
+                    android:textSize="@dimen/text_size"
+                    android:paddingStart="@dimen/padding"
+                    android:paddingEnd="@dimen/padding"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/film_composers"/>
+
+                <TextView
+                    android:id="@+id/film_directors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/directors"
+                    android:textColor="@color/white_text_grey"
+                    android:textSize="@dimen/text_size"
+                    android:paddingStart="@dimen/padding"
+                    android:paddingEnd="@dimen/padding"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/film_actors"/>
+
+                <TextView
+                    android:id="@+id/film_description_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/padding"
+                    android:paddingEnd="@dimen/padding"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/film_directors"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
