@@ -1,43 +1,53 @@
 package by.seobility.kinoclub.ui.main;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.graphics.Rect;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.AutoTransition;
+import androidx.transition.ChangeBounds;
+import androidx.transition.TransitionManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.makeramen.roundedimageview.RoundedImageView;
-import com.squareup.picasso.Picasso;
-
-import java.util.List;
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import by.seobility.kinoclub.R;
-import by.seobility.kinoclub.repo.models.Film;
-import by.seobility.kinoclub.repo.models.TopSlider;
+import by.seobility.kinoclub.repo.models.FilmsList;
 import by.seobility.kinoclub.utils.ViewModelFactory;
 
 public class MainFragment extends Fragment {
 
     @BindView(R.id.top_slider)
     RecyclerView viewTopSlider;
+    @BindView(R.id.series_update_list)
+    RecyclerView viewSeriesUpdate;
+    @BindView(R.id.series_update)
+    ConstraintLayout seriesUpdate;
+    @BindView(R.id.series_update_icon)
+    ImageView seriesUpdateIcon;
+    @BindView(R.id.series_update_expandable)
+    ExpandableLayout seriesUpdateExpandable;
 
     private static MainFragment instance;
     private MainFragmentViewModel viewModel;
     private Unbinder unbinder;
-    private TopSliderAdapter adapter;
+    private TopSliderAdapter topSliderAdapter;
+    private SeriesUpdateAdapter seriesUpdateAdapter;
 
     public static MainFragment getInstance() {
         if (instance == null) {
@@ -61,6 +71,10 @@ public class MainFragment extends Fragment {
                 getViewLifecycleOwner(),
                 this::showTopSlider
         );
+        viewModel.getSeriesUpdate().observe(
+                getViewLifecycleOwner(),
+                this::showSeriesUpdate
+        );
         return inflater.inflate(R.layout.main_fragment, container, false);
     }
 
@@ -69,6 +83,16 @@ public class MainFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
         viewModel.fetchTopSlider();
+        viewModel.fetchSeriesUpdate();
+        seriesUpdate.setOnClickListener(v -> {
+            seriesUpdateExpandable.toggle();
+            SeriesUpdateAdapter adapter = (SeriesUpdateAdapter) viewSeriesUpdate.getAdapter();
+            Boolean isExpanded = adapter.isExpanded();
+//            TransitionManager.beginDelayedTransition(viewSeriesUpdate, new AutoTransition());
+//            viewSeriesUpdate.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+            seriesUpdateIcon.setImageResource(isExpanded ? R.drawable.add : R.drawable.remove);
+            adapter.setExpanded(!isExpanded);
+        });
     }
 
     @Override
@@ -79,50 +103,17 @@ public class MainFragment extends Fragment {
         }
     }
 
-    private void showTopSlider(TopSlider topSlider) {
-        adapter = new TopSliderAdapter(topSlider.getData());
-        viewTopSlider.setAdapter(adapter);
+    private void showTopSlider(FilmsList filmsList) {
+        topSliderAdapter = new TopSliderAdapter(filmsList.getData());
+        viewTopSlider.setAdapter(topSliderAdapter);
         viewTopSlider.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
     }
 
-    public class TopSliderAdapter extends RecyclerView.Adapter<TopSliderAdapter.TopSliderViewHolder> {
-
-        private List<Film> films;
-
-        public TopSliderAdapter(List<Film> films) {
-            this.films = films;
-        }
-
-        @NonNull
-        @Override
-        public TopSliderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_top_slider, parent, false);
-            return new TopSliderViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull TopSliderViewHolder holder, int position) {
-            holder.bindData(films.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return films != null ? films.size() : 0;
-        }
-
-        public class TopSliderViewHolder extends RecyclerView.ViewHolder {
-
-            @BindView(R.id.poster)
-            RoundedImageView poster;
-
-            public TopSliderViewHolder(@NonNull View itemView) {
-                super(itemView);
-                ButterKnife.bind(this, itemView);
-            }
-
-            public void bindData(Film film) {
-                Picasso.get().load(film.getPoster()).into(poster);
-            }
-        }
+    private void showSeriesUpdate(FilmsList filmsList) {
+        seriesUpdateAdapter = new SeriesUpdateAdapter(filmsList.getData());
+        viewSeriesUpdate.setAdapter(seriesUpdateAdapter);
+        viewSeriesUpdate.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        viewSeriesUpdate.setNestedScrollingEnabled(false);
+        viewSeriesUpdate.addItemDecoration(new SpacesItemDecoration(20));
     }
 }

@@ -2,12 +2,12 @@ package by.seobility.kinoclub.repo.models;
 
 import java.util.List;
 
-public class TopSlider {
+public class FilmsList {
     private String status;
     private List<Film> data;
     private String message;
 
-    public TopSlider(String status, List<Film> data, String message) {
+    public FilmsList(String status, List<Film> data, String message) {
         this.status = status;
         this.data = data;
         this.message = message;

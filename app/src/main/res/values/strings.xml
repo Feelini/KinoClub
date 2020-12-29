@@ -2,4 +2,5 @@
     <string name="app_name">Kinoclub</string>
     <string name="toolbar_text">Киноклуб</string>
     <string name="series_update">Обновления сериалов</string>
+    <string name="series_update_list_text">%1$s сезон %2$s серия</string>
 </resources>
