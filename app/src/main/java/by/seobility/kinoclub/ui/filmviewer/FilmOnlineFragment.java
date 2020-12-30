@@ -1,5 +1,8 @@
 package by.seobility.kinoclub.ui.filmviewer;
 
+import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +10,7 @@ import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import by.seobility.kinoclub.R;
+import by.seobility.kinoclub.utils.MyWebClient;
 
 public class FilmOnlineFragment extends Fragment {
 
@@ -38,6 +43,12 @@ public class FilmOnlineFragment extends Fragment {
         this.iframe_link = "<iframe style=\"transform: translate(-10px, -10px); width: calc(100% + 20px); height: calc(100% + 20px)\" src=\""+iframe_link+"\" frameborder=\"0\" id=\"onik-player\" allowfullscreen=\"\"></iframe>";
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -51,7 +62,7 @@ public class FilmOnlineFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         filmOnlineView.getSettings().setJavaScriptEnabled(true);
         filmOnlineView.getSettings().setAllowFileAccess(true);
-        filmOnlineView.setWebChromeClient(new WebChromeClient());
+        filmOnlineView.setWebChromeClient(new MyWebClient(getActivity()));
         filmOnlineView.setWebViewClient(new WebViewClient());
         filmOnlineView.loadDataWithBaseURL("https://vkino.fun/", iframe_link , "text/html",  "UTF-8", "");
     }

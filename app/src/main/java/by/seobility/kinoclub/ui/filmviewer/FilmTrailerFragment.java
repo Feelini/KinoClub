@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import by.seobility.kinoclub.R;
+import by.seobility.kinoclub.utils.MyWebClient;
 
 public class FilmTrailerFragment extends Fragment {
     @BindView(R.id.film_trailer_view)
@@ -38,6 +39,12 @@ public class FilmTrailerFragment extends Fragment {
         this.trailer_link = "<iframe style=\"transform: translate(-10px, -10px); width: calc(100% + 20px); height: calc(100% + 20px)\" width=\"100%\" height=\"100%\" src=\""+trailer_link+"\" frameborder=\"0\" allowfullscreen=\"\"></iframe>";
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -51,7 +58,7 @@ public class FilmTrailerFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         filmTrailerView.getSettings().setJavaScriptEnabled(true);
         filmTrailerView.getSettings().setAllowFileAccess(true);
-        filmTrailerView.setWebChromeClient(new WebChromeClient());
+        filmTrailerView.setWebChromeClient(new MyWebClient(getActivity()));
         filmTrailerView.setWebViewClient(new WebViewClient());
         filmTrailerView.loadDataWithBaseURL("https://vkino.fun/", trailer_link , "text/html",  "UTF-8", "");
     }

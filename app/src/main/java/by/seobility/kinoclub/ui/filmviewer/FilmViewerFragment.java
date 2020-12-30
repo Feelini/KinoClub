@@ -105,13 +105,14 @@ public class FilmViewerFragment extends Fragment {
         return new FilmViewerFragment(film);
     }
 
-    private FilmViewerFragment(Film film){
+    public FilmViewerFragment(Film film){
         this.film = film;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         ViewModelFactory viewModelFactory = new ViewModelFactory(getActivity().getApplication());
         viewModel = new ViewModelProvider(this, viewModelFactory).get(MainFragmentViewModel.class);
         filmViewerViewModel = new ViewModelProvider(this, viewModelFactory).get(FilmViewerViewModel.class);
