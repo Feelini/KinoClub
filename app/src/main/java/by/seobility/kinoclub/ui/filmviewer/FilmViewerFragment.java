@@ -156,37 +156,88 @@ public class FilmViewerFragment extends Fragment {
         filmTitle.setText(film.getTitle());
         Picasso.get().load(film.getPoster()).into(filmPoster);
         filmRateText.setText(film.getRating());
-        filmCategory.setText(HtmlCompat.fromHtml(getResources().getString(R.string.category,
-                "<font color='#FFFFFF'>" + film.getCat() + "</font>"),
-                HtmlCompat.FROM_HTML_MODE_LEGACY));
-        filmYear.setText(HtmlCompat.fromHtml(getResources().getString(R.string.year,
-                "<font color='#FFFFFF'>" + film.getYear() + "</font>"),
-                HtmlCompat.FROM_HTML_MODE_LEGACY));
-        filmCountries.setText(HtmlCompat.fromHtml(getResources().getString(R.string.countries,
-                "<font color='#FFFFFF'>" + listToString(film.getCountries()) + "</font>"),
-                HtmlCompat.FROM_HTML_MODE_LEGACY));
-        filmGenres.setText(HtmlCompat.fromHtml(getResources().getString(R.string.genres,
-                "<font color='#FFFFFF'>" + listToString(film.getGenres()) + "</font>"),
-                HtmlCompat.FROM_HTML_MODE_LEGACY));
-        filmQualities.setText(HtmlCompat.fromHtml(getResources().getString(R.string.qualites,
-                "<font color='#FFFFFF'>" + listToString(film.getQualites()) + "</font>"),
-                HtmlCompat.FROM_HTML_MODE_LEGACY));
-        filmTranslations.setText(HtmlCompat.fromHtml(getResources().getString(R.string.translations,
-                "<font color='#FFFFFF'>" + listToString(film.getTranslations()) + "</font>"),
-                HtmlCompat.FROM_HTML_MODE_LEGACY));
-        filmDuration.setText(HtmlCompat.fromHtml(getResources().getString(R.string.duration,
-                "<font color='#FFFFFF'>" + film.getDuration() + "</font>"),
-                HtmlCompat.FROM_HTML_MODE_LEGACY));
-        filmComposers.setText(HtmlCompat.fromHtml(getResources().getString(R.string.composers,
-                "<font color='#FFFFFF'>" + listToString(film.getComposers()) + "</font>"),
-                HtmlCompat.FROM_HTML_MODE_LEGACY));
-        filmActors.setText(HtmlCompat.fromHtml(getResources().getString(R.string.actors,
-                "<font color='#FFFFFF'>" + listToString(film.getActors()) + "</font>"),
-                HtmlCompat.FROM_HTML_MODE_LEGACY));
-        filmDirectors.setText(HtmlCompat.fromHtml(getResources().getString(R.string.directors,
-                "<font color='#FFFFFF'>" + listToString(film.getDirectors()) + "</font>"),
-                HtmlCompat.FROM_HTML_MODE_LEGACY));
-        filmDescriptionText.setText(film.getDescription());
+        if (film.getCat().equals("false")){
+            filmCategory.setVisibility(View.GONE);
+        } else {
+            filmCategory.setText(HtmlCompat.fromHtml(getResources().getString(R.string.category,
+                    "<font color='#FFFFFF'>" + film.getCat() + "</font>"),
+                    HtmlCompat.FROM_HTML_MODE_LEGACY));
+        }
+        if (film.getYear().equals("false")){
+            filmYear.setVisibility(View.GONE);
+        } else {
+            filmYear.setText(HtmlCompat.fromHtml(getResources().getString(R.string.year,
+                    "<font color='#FFFFFF'>" + film.getYear() + "</font>"),
+                    HtmlCompat.FROM_HTML_MODE_LEGACY));
+        }
+        String countries = listToString(film.getCountries());
+        if (countries.equals("false")){
+            filmCountries.setVisibility(View.GONE);
+        } else {
+            filmCountries.setText(HtmlCompat.fromHtml(getResources().getString(R.string.countries,
+                    "<font color='#FFFFFF'>" + countries + "</font>"),
+                    HtmlCompat.FROM_HTML_MODE_LEGACY));
+        }
+        String genres = listToString(film.getGenres());
+        if (genres.equals("false")){
+            filmGenres.setVisibility(View.GONE);
+        } else {
+            filmGenres.setText(HtmlCompat.fromHtml(getResources().getString(R.string.genres,
+                    "<font color='#FFFFFF'>" + genres + "</font>"),
+                    HtmlCompat.FROM_HTML_MODE_LEGACY));
+        }
+        String qualities = listToString(film.getQualites());
+        if (qualities.equals("false")){
+            filmQualities.setVisibility(View.GONE);
+        } else {
+            filmQualities.setText(HtmlCompat.fromHtml(getResources().getString(R.string.qualites,
+                    "<font color='#FFFFFF'>" + qualities + "</font>"),
+                    HtmlCompat.FROM_HTML_MODE_LEGACY));
+        }
+        String translations = listToString(film.getTranslations());
+        if (translations.equals("false")){
+            filmTranslations.setVisibility(View.GONE);
+        } else {
+            filmTranslations.setText(HtmlCompat.fromHtml(getResources().getString(R.string.translations,
+                    "<font color='#FFFFFF'>" + translations + "</font>"),
+                    HtmlCompat.FROM_HTML_MODE_LEGACY));
+        }
+        if (film.getDuration().equals("false")){
+            filmDuration.setVisibility(View.GONE);
+        } else {
+            filmDuration.setText(HtmlCompat.fromHtml(getResources().getString(R.string.duration,
+                    "<font color='#FFFFFF'>" + film.getDuration() + "</font>"),
+                    HtmlCompat.FROM_HTML_MODE_LEGACY));
+        }
+        String composers = listToString(film.getComposers());
+        if (composers.equals("false")){
+            filmComposers.setVisibility(View.GONE);
+        } else {
+            filmComposers.setText(HtmlCompat.fromHtml(getResources().getString(R.string.composers,
+                    "<font color='#FFFFFF'>" + composers + "</font>"),
+                    HtmlCompat.FROM_HTML_MODE_LEGACY));
+        }
+        String actors = listToString(film.getActors());
+        if (actors.equals("false")){
+            filmActors.setVisibility(View.GONE);
+        } else {
+            filmActors.setText(HtmlCompat.fromHtml(getResources().getString(R.string.actors,
+                    "<font color='#FFFFFF'>" + actors + "</font>"),
+                    HtmlCompat.FROM_HTML_MODE_LEGACY));
+        }
+        String directors = listToString(film.getDirectors());
+        if (directors.equals("false")){
+            filmDirectors.setVisibility(View.GONE);
+        } else {
+            filmDirectors.setText(HtmlCompat.fromHtml(getResources().getString(R.string.directors,
+                    "<font color='#FFFFFF'>" + directors + "</font>"),
+                    HtmlCompat.FROM_HTML_MODE_LEGACY));
+        }
+        if (film.getDescription().equals("false")){
+            filmDescriptionText.setVisibility(View.GONE);
+        } else {
+            filmDescriptionText.setText(film.getDescription());
+        }
 
         showTabs();
     }
@@ -208,6 +259,7 @@ public class FilmViewerFragment extends Fragment {
     }
 
     private String listToString(List<String> list){
+        if (list.isEmpty()) return "false";
         StringBuilder return_string = new StringBuilder();
         for (String s : list){
             return_string.append(s).append(", ");
