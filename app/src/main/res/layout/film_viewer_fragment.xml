@@ -114,6 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="@dimen/margin"
+                android:layout_marginBottom="30dp"
                 android:background="@drawable/rounded_white_gray_border"
                 app:layout_constraintTop_toBottomOf="@id/series_update_expandable"
                 app:layout_constraintStart_toStartOf="parent"
@@ -314,11 +315,74 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/padding"
                     android:paddingEnd="@dimen/padding"
+                    android:layout_marginBottom="@dimen/margin"
                     android:fontFamily="@font/montserrat"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/film_directors"/>
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding"
+                    android:layout_marginEnd="@dimen/padding"
+                    android:layout_marginTop="@dimen/margin"
+                    app:layout_constraintTop_toBottomOf="@id/film_description_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:tabIndicatorColor="@color/white_text_grey"
+                    android:background="@drawable/tab_background"
+                    app:tabIndicatorGravity="stretch"
+                    app:tabTextColor="@color/white"
+                    app:tabTextAppearance="@style/TabLayoutTextStyle">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/online" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/trailer" />
+
+                </com.google.android.material.tabs.TabLayout>
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginStart="@dimen/padding"
+                    android:layout_marginEnd="@dimen/padding"
+                    android:background="@color/white_text_grey"
+                    app:layout_constraintTop_toBottomOf="@id/tab_layout"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/similar_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin"
+                    android:layout_marginBottom="@dimen/margin"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size"
+                    android:text="@string/similar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/viewPager"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/similar_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/margin"
+                    android:paddingStart="@dimen/padding"
+                    android:paddingEnd="@dimen/padding"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/similar_text"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

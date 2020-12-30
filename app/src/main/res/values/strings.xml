@@ -13,4 +13,7 @@
     <string name="composers">Композитор: %1$s</string>
     <string name="actors">Актеры: %1$s</string>
     <string name="directors">Режиссёр: %1$s</string>
+    <string name="online">Онлайн</string>
+    <string name="trailer">Трейлер</string>
+    <string name="similar">Рекомендуем посмотреть</string>
 </resources>

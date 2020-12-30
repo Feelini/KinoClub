@@ -17,21 +17,25 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import by.seobility.kinoclub.R;
 import by.seobility.kinoclub.repo.models.Film;
+import by.seobility.kinoclub.utils.OnClickListener;
 
 public class SeriesUpdateAdapter extends RecyclerView.Adapter<SeriesUpdateAdapter.SeriesUpdateViewHolder>{
     private List<Film> films;
     private Boolean expanded;
     private static SeriesUpdateAdapter instance;
+    private OnClickListener onClickListener;
 
-    public static SeriesUpdateAdapter getInstance(List<Film> films){
-        if (instance == null){
-            instance = new SeriesUpdateAdapter(films);
-        }
+    public static SeriesUpdateAdapter getInstance(){
         return instance;
     }
 
-    private SeriesUpdateAdapter(List<Film> films) {
+    public static SeriesUpdateAdapter getInstance(List<Film> films, OnClickListener context){
+        return new SeriesUpdateAdapter(films, context);
+    }
+
+    private SeriesUpdateAdapter(List<Film> films, OnClickListener context) {
         this.films = films;
+        this.onClickListener = context;
         this.expanded = false;
     }
 
@@ -82,6 +86,11 @@ public class SeriesUpdateAdapter extends RecyclerView.Adapter<SeriesUpdateAdapte
                     film.getLast_episode().getEpisode());
             seriesUpdateListText.setText(seriesUpdateText);
             seriesUpdateListTitle.setText(film.getTitle());
+            itemView.setOnClickListener(v -> {
+                if (onClickListener != null){
+                    onClickListener.onFilmClick(film);
+                }
+            });
         }
     }
 }

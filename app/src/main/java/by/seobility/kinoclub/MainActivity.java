@@ -7,9 +7,9 @@ import android.os.Bundle;
 import by.seobility.kinoclub.repo.models.Film;
 import by.seobility.kinoclub.ui.filmviewer.FilmViewerFragment;
 import by.seobility.kinoclub.ui.main.MainFragment;
-import by.seobility.kinoclub.ui.main.TopSliderAdapter;
+import by.seobility.kinoclub.utils.OnClickListener;
 
-public class MainActivity extends AppCompatActivity implements TopSliderAdapter.OnFilmClickListener {
+public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

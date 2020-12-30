@@ -16,19 +16,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import by.seobility.kinoclub.R;
 import by.seobility.kinoclub.repo.models.Film;
+import by.seobility.kinoclub.utils.OnClickListener;
 
 public class TopSliderAdapter extends RecyclerView.Adapter<TopSliderAdapter.TopSliderViewHolder> {
 
     private List<Film> films;
-    OnFilmClickListener onFilmClickListener;
+    OnClickListener onClickListener;
 
-    public TopSliderAdapter(List<Film> films, OnFilmClickListener onFilmClickListener) {
+    public TopSliderAdapter(List<Film> films, OnClickListener onClickListener) {
         this.films = films;
-        this.onFilmClickListener = onFilmClickListener;
-    }
-
-    public interface OnFilmClickListener{
-        void onFilmClick(Film film);
+        this.onClickListener = onClickListener;
     }
 
     @NonNull
@@ -60,8 +57,8 @@ public class TopSliderAdapter extends RecyclerView.Adapter<TopSliderAdapter.TopS
 
         public void bindData(Film film) {
             itemView.setOnClickListener(v -> {
-                if (onFilmClickListener != null){
-                    onFilmClickListener.onFilmClick(film);
+                if (onClickListener != null){
+                    onClickListener.onFilmClick(film);
                 }
             });
             Picasso.get().load(film.getPoster()).into(poster);

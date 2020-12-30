@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import by.seobility.kinoclub.R;
 import by.seobility.kinoclub.repo.models.FilmsList;
+import by.seobility.kinoclub.utils.OnClickListener;
 import by.seobility.kinoclub.utils.ViewModelFactory;
 
 public class MainFragment extends Fragment {
@@ -98,13 +99,13 @@ public class MainFragment extends Fragment {
     }
 
     private void showTopSlider(FilmsList filmsList) {
-        topSliderAdapter = new TopSliderAdapter(filmsList.getData(), (TopSliderAdapter.OnFilmClickListener) getContext());
+        topSliderAdapter = new TopSliderAdapter(filmsList.getData(), (OnClickListener) getContext());
         viewTopSlider.setAdapter(topSliderAdapter);
         viewTopSlider.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
     }
 
     private void showSeriesUpdate(FilmsList filmsList) {
-        seriesUpdateAdapter = SeriesUpdateAdapter.getInstance(filmsList.getData());
+        seriesUpdateAdapter = SeriesUpdateAdapter.getInstance(filmsList.getData(), (OnClickListener) getContext());
         seriesUpdateIcon.setImageResource(seriesUpdateAdapter.isExpanded() ? R.drawable.remove : R.drawable.add);
         viewSeriesUpdate.setAdapter(seriesUpdateAdapter);
         viewSeriesUpdate.setLayoutManager(new GridLayoutManager(getContext(), 2));
