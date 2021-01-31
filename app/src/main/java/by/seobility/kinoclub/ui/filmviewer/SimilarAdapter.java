@@ -22,6 +22,7 @@ import by.seobility.kinoclub.utils.OnClickListener;
 public class SimilarAdapter extends RecyclerView.Adapter<SimilarAdapter.SimilarViewHolder>{
 
     private List<Film> films;
+    private String baseUrl;
     OnClickListener onClickListener;
     private static SimilarAdapter instance;
 
@@ -29,13 +30,14 @@ public class SimilarAdapter extends RecyclerView.Adapter<SimilarAdapter.SimilarV
         return instance;
     }
 
-    public static SimilarAdapter getInstance(List<Film> films, OnClickListener onClickListener){
-        return new SimilarAdapter(films, onClickListener);
+    public static SimilarAdapter getInstance(List<Film> films, OnClickListener onClickListener, String baseUrl){
+        return new SimilarAdapter(films, onClickListener, baseUrl);
     }
 
-    private SimilarAdapter(List<Film> films, OnClickListener onClickListener) {
+    private SimilarAdapter(List<Film> films, OnClickListener onClickListener, String baseUrl) {
         this.films = films;
         this.onClickListener = onClickListener;
+        this.baseUrl = baseUrl;
     }
 
     @NonNull
@@ -73,7 +75,7 @@ public class SimilarAdapter extends RecyclerView.Adapter<SimilarAdapter.SimilarV
                     onClickListener.onFilmClick(film);
                 }
             });
-            Picasso.get().load(film.getPoster()).into(poster);
+            Picasso.get().load(baseUrl + film.getPoster()).into(poster);
             title.setText(film.getTitle());
         }
     }

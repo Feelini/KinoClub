@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkService {
     private static NetworkService instance;
-    private static final String BASE_URL = "https://vkino.fun/api/";
+    private static final String BASE_URL = "https://api.vkino.fun/";
     private Retrofit retrofit;
 
     private NetworkService() {

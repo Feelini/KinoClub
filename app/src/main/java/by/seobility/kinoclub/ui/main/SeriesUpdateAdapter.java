@@ -24,19 +24,21 @@ public class SeriesUpdateAdapter extends RecyclerView.Adapter<SeriesUpdateAdapte
     private Boolean expanded;
     private static SeriesUpdateAdapter instance;
     private OnClickListener onClickListener;
+    private String baseUrl;
 
     public static SeriesUpdateAdapter getInstance(){
         return instance;
     }
 
-    public static SeriesUpdateAdapter getInstance(List<Film> films, OnClickListener context){
-        return new SeriesUpdateAdapter(films, context);
+    public static SeriesUpdateAdapter getInstance(List<Film> films, OnClickListener context, String baseUrl){
+        return new SeriesUpdateAdapter(films, context, baseUrl);
     }
 
-    private SeriesUpdateAdapter(List<Film> films, OnClickListener context) {
+    private SeriesUpdateAdapter(List<Film> films, OnClickListener context, String baseUrl) {
         this.films = films;
         this.onClickListener = context;
         this.expanded = false;
+        this.baseUrl = baseUrl;
     }
 
     public Boolean isExpanded(){
@@ -79,7 +81,8 @@ public class SeriesUpdateAdapter extends RecyclerView.Adapter<SeriesUpdateAdapte
         }
 
         public void bindData(Film film) {
-            Picasso.get().load(film.getPoster()).into(seriesUpdateListImage);
+            String posterUrl = baseUrl + film.getPoster();
+            Picasso.get().load(posterUrl).into(seriesUpdateListImage);
             String seriesUpdateText = itemView.getResources().getString(
                     R.string.series_update_list_text,
                     film.getLast_episode().getSeason(),

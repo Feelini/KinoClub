@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
@@ -37,10 +36,11 @@ import by.seobility.kinoclub.ui.main.MainFragmentViewModel;
 import by.seobility.kinoclub.ui.main.SeriesUpdateAdapter;
 import by.seobility.kinoclub.ui.main.SpacesItemDecoration;
 import by.seobility.kinoclub.ui.main.TopSliderAdapter;
+import by.seobility.kinoclub.utils.FragmentsParent;
 import by.seobility.kinoclub.utils.OnClickListener;
 import by.seobility.kinoclub.utils.ViewModelFactory;
 
-public class FilmViewerFragment extends Fragment {
+public class FilmViewerFragment extends FragmentsParent {
 
     @BindView(R.id.film_title)
     TextView filmTitle;
@@ -154,7 +154,7 @@ public class FilmViewerFragment extends Fragment {
         });
 
         filmTitle.setText(film.getTitle());
-        Picasso.get().load(film.getPoster()).into(filmPoster);
+        Picasso.get().load(getBaseUrl() + film.getPoster()).into(filmPoster);
         filmRateText.setText(film.getRating());
         if (film.getCat().equals("false")){
             filmCategory.setVisibility(View.GONE);
@@ -268,13 +268,13 @@ public class FilmViewerFragment extends Fragment {
     }
 
     private void showTopSlider(FilmsList filmsList) {
-        topSliderAdapter = new TopSliderAdapter(filmsList.getData(), (OnClickListener) getContext());
+        topSliderAdapter = new TopSliderAdapter(filmsList.getData(), (OnClickListener) getContext(), getBaseUrl());
         viewTopSlider.setAdapter(topSliderAdapter);
         viewTopSlider.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
     }
 
     private void showSeriesUpdate(FilmsList filmsList) {
-        seriesUpdateAdapter = SeriesUpdateAdapter.getInstance(filmsList.getData(), (OnClickListener) getContext());
+        seriesUpdateAdapter = SeriesUpdateAdapter.getInstance(filmsList.getData(), (OnClickListener) getContext(), getBaseUrl());
         seriesUpdateIcon.setImageResource(seriesUpdateAdapter.isExpanded() ? R.drawable.remove : R.drawable.add);
         viewSeriesUpdate.setAdapter(seriesUpdateAdapter);
         viewSeriesUpdate.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -283,7 +283,7 @@ public class FilmViewerFragment extends Fragment {
     }
 
     private void showSimilarFilms(FilmsList filmsList){
-        similarAdapter = SimilarAdapter.getInstance(filmsList.getData(), (OnClickListener) getContext());
+        similarAdapter = SimilarAdapter.getInstance(filmsList.getData(), (OnClickListener) getContext(), getBaseUrl());
         similarList.setAdapter(similarAdapter);
         similarList.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
     }

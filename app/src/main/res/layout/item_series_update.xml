@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/margin"
+    android:layout_marginBottom="@dimen/dp20"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -19,8 +19,8 @@
         android:id="@+id/series_update_list_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/corner_radius"
-        android:paddingEnd="@dimen/corner_radius"
+        android:paddingStart="@dimen/dp5"
+        android:paddingEnd="@dimen/dp5"
         android:textColor="@color/white"
         android:fontFamily="@font/montserrat_bold"
         android:background="@drawable/rounded_orange_background"
@@ -31,7 +31,7 @@
         android:id="@+id/series_update_list_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin"
+        android:layout_marginTop="@dimen/dp20"
         android:textColor="@color/white"
         android:fontFamily="@font/montserrat_bold"
         app:layout_constraintStart_toStartOf="parent"

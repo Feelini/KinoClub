@@ -16,4 +16,12 @@
     <string name="online">Онлайн</string>
     <string name="trailer">Трейлер</string>
     <string name="similar">Рекомендуем посмотреть</string>
+    <string name="filter">Настроить фильтры</string>
+    <string name="choose_category">Выбрать категорию</string>
+    <string name="choose_quality">Выбрать качество</string>
+    <string name="choose_genre">Выбрать жанр</string>
+    <string name="choose_country">Выбрать страну</string>
+    <string name="choose_year">Выбрать год</string>
+    <string name="filter_apply">Применить</string>
+    <string name="choose_list_submit">Подтвердить</string>
 </resources>

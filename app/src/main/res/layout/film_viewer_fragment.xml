@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_height"
+        android:layout_height="@dimen/dp60"
         android:background="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,14 +38,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/margin">
+            android:layout_marginBottom="@dimen/dp20">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/top_slider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin"
-                android:padding="@dimen/padding"
+                android:layout_margin="@dimen/dp20"
+                android:padding="@dimen/dp15"
                 android:background="@drawable/rounded_gray_background"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -54,8 +54,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/series_update"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/row_height"
-                android:layout_margin="@dimen/margin"
+                android:layout_height="@dimen/dp50"
+                android:layout_margin="@dimen/dp20"
                 android:background="@drawable/rounded_gray_background"
                 app:layout_constraintTop_toBottomOf="@id/top_slider"
                 app:layout_constraintStart_toStartOf="parent"
@@ -70,7 +70,7 @@
                     android:fontFamily="@font/montserrat_bold"
                     android:text="@string/series_update"
                     android:textColor="@color/white"
-                    android:paddingStart="@dimen/padding"
+                    android:paddingStart="@dimen/dp15"
                     android:textSize="@dimen/text_size"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +83,7 @@
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/add"
                     app:tint="@color/white"
-                    android:paddingEnd="@dimen/padding"
+                    android:paddingEnd="@dimen/dp15"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
@@ -105,7 +105,7 @@
                     android:id="@+id/series_update_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="@dimen/margin"/>
+                    android:layout_margin="@dimen/dp20"/>
 
             </net.cachapa.expandablelayout.ExpandableLayout>
 
@@ -113,7 +113,7 @@
                 android:id="@+id/film_layer"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_margin="@dimen/margin"
+                android:layout_margin="@dimen/dp20"
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/rounded_white_gray_border"
                 app:layout_constraintTop_toBottomOf="@id/series_update_expandable"
@@ -128,8 +128,8 @@
                     android:text="Падение ангела"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size"
-                    android:layout_marginTop="@dimen/margin"
-                    android:paddingStart="@dimen/padding"
+                    android:layout_marginTop="@dimen/dp20"
+                    android:paddingStart="@dimen/dp15"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -138,7 +138,7 @@
                     android:layout_width="@dimen/poster_big_width"
                     android:layout_height="@dimen/poster_big_height"
                     android:scaleType="centerCrop"
-                    android:padding="@dimen/padding"
+                    android:padding="@dimen/dp15"
                     app:layout_constraintTop_toBottomOf="@id/film_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
@@ -162,7 +162,7 @@
                         android:id="@+id/film_rate_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/padding"
+                        android:paddingStart="@dimen/dp15"
                         android:textColor="@color/white"
                         android:fontFamily="@font/montserrat_bold"
                         android:textSize="@dimen/text_size"
@@ -175,8 +175,8 @@
                     android:id="@+id/film_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/padding"
-                    android:paddingEnd="@dimen/padding"
+                    android:paddingStart="@dimen/dp15"
+                    android:paddingEnd="@dimen/dp15"
                     android:fontFamily="@font/montserrat"
                     android:text="@string/category"
                     android:textColor="@color/white_text_grey"
@@ -188,8 +188,8 @@
                     android:id="@+id/film_year"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/padding"
-                    android:paddingEnd="@dimen/padding"
+                    android:paddingStart="@dimen/dp15"
+                    android:paddingEnd="@dimen/dp15"
                     android:fontFamily="@font/montserrat"
                     android:text="@string/year"
                     android:textColor="@color/white_text_grey"
@@ -205,8 +205,8 @@
                     android:text="@string/countries"
                     android:textColor="@color/white_text_grey"
                     android:textSize="@dimen/text_size"
-                    android:paddingStart="@dimen/padding"
-                    android:paddingEnd="@dimen/padding"
+                    android:paddingStart="@dimen/dp15"
+                    android:paddingEnd="@dimen/dp15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/film_year"/>
 
@@ -218,8 +218,8 @@
                     android:text="@string/genres"
                     android:textColor="@color/white_text_grey"
                     android:textSize="@dimen/text_size"
-                    android:paddingStart="@dimen/padding"
-                    android:paddingEnd="@dimen/padding"
+                    android:paddingStart="@dimen/dp15"
+                    android:paddingEnd="@dimen/dp15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/film_countries"/>
 
@@ -231,8 +231,8 @@
                     android:text="@string/qualites"
                     android:textColor="@color/white_text_grey"
                     android:textSize="@dimen/text_size"
-                    android:paddingStart="@dimen/padding"
-                    android:paddingEnd="@dimen/padding"
+                    android:paddingStart="@dimen/dp15"
+                    android:paddingEnd="@dimen/dp15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/film_genres"/>
 
@@ -244,8 +244,8 @@
                     android:text="@string/translations"
                     android:textColor="@color/white_text_grey"
                     android:textSize="@dimen/text_size"
-                    android:paddingStart="@dimen/padding"
-                    android:paddingEnd="@dimen/padding"
+                    android:paddingStart="@dimen/dp15"
+                    android:paddingEnd="@dimen/dp15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/film_qualities"/>
 
@@ -257,15 +257,15 @@
                     android:text="@string/duration"
                     android:textColor="@color/white_text_grey"
                     android:textSize="@dimen/text_size"
-                    android:paddingStart="@dimen/padding"
-                    android:paddingEnd="@dimen/padding"
+                    android:paddingStart="@dimen/dp15"
+                    android:paddingEnd="@dimen/dp15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/film_translations"/>
 
                 <View
                     android:id="@+id/empty_row"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/margin"
+                    android:layout_height="@dimen/dp20"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/film_duration"/>
@@ -278,8 +278,8 @@
                     android:text="@string/composers"
                     android:textColor="@color/white_text_grey"
                     android:textSize="@dimen/text_size"
-                    android:paddingStart="@dimen/padding"
-                    android:paddingEnd="@dimen/padding"
+                    android:paddingStart="@dimen/dp15"
+                    android:paddingEnd="@dimen/dp15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/empty_row"/>
 
@@ -291,8 +291,8 @@
                     android:text="@string/actors"
                     android:textColor="@color/white_text_grey"
                     android:textSize="@dimen/text_size"
-                    android:paddingStart="@dimen/padding"
-                    android:paddingEnd="@dimen/padding"
+                    android:paddingStart="@dimen/dp15"
+                    android:paddingEnd="@dimen/dp15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/film_composers"/>
 
@@ -304,8 +304,8 @@
                     android:text="@string/directors"
                     android:textColor="@color/white_text_grey"
                     android:textSize="@dimen/text_size"
-                    android:paddingStart="@dimen/padding"
-                    android:paddingEnd="@dimen/padding"
+                    android:paddingStart="@dimen/dp15"
+                    android:paddingEnd="@dimen/dp15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/film_actors"/>
 
@@ -313,9 +313,9 @@
                     android:id="@+id/film_description_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/padding"
-                    android:paddingEnd="@dimen/padding"
-                    android:layout_marginBottom="@dimen/margin"
+                    android:paddingStart="@dimen/dp15"
+                    android:paddingEnd="@dimen/dp15"
+                    android:layout_marginBottom="@dimen/dp20"
                     android:fontFamily="@font/montserrat"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size"
@@ -326,9 +326,9 @@
                     android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/padding"
-                    android:layout_marginEnd="@dimen/padding"
-                    android:layout_marginTop="@dimen/margin"
+                    android:layout_marginStart="@dimen/dp15"
+                    android:layout_marginEnd="@dimen/dp15"
+                    android:layout_marginTop="@dimen/dp20"
                     app:layout_constraintTop_toBottomOf="@id/film_description_text"
                     app:layout_constraintStart_toStartOf="parent"
                     app:tabIndicatorColor="@color/white_text_grey"
@@ -353,8 +353,8 @@
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
-                    android:layout_marginStart="@dimen/padding"
-                    android:layout_marginEnd="@dimen/padding"
+                    android:layout_marginStart="@dimen/dp15"
+                    android:layout_marginEnd="@dimen/dp15"
                     android:background="@color/white_text_grey"
                     app:layout_constraintTop_toBottomOf="@id/tab_layout"
                     app:layout_constraintStart_toStartOf="parent"/>
@@ -363,8 +363,8 @@
                     android:id="@+id/similar_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin"
-                    android:layout_marginBottom="@dimen/margin"
+                    android:layout_marginTop="@dimen/dp20"
+                    android:layout_marginBottom="@dimen/dp20"
                     android:fontFamily="@font/montserrat_bold"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size"
@@ -377,9 +377,9 @@
                     android:id="@+id/similar_list"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginBottom="@dimen/margin"
-                    android:paddingStart="@dimen/padding"
-                    android:paddingEnd="@dimen/padding"
+                    android:layout_marginBottom="@dimen/dp20"
+                    android:paddingStart="@dimen/dp15"
+                    android:paddingEnd="@dimen/dp15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/similar_text"/>

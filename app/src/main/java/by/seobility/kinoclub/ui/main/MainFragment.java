@@ -3,6 +3,8 @@ package by.seobility.kinoclub.ui.main;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
@@ -24,10 +27,11 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import by.seobility.kinoclub.R;
 import by.seobility.kinoclub.repo.models.FilmsList;
+import by.seobility.kinoclub.utils.FragmentsParent;
 import by.seobility.kinoclub.utils.OnClickListener;
 import by.seobility.kinoclub.utils.ViewModelFactory;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends FragmentsParent {
 
     @BindView(R.id.top_slider)
     RecyclerView viewTopSlider;
@@ -39,18 +43,25 @@ public class MainFragment extends Fragment {
     ImageView seriesUpdateIcon;
     @BindView(R.id.series_update_expandable)
     ExpandableLayout seriesUpdateExpandable;
+    @BindView(R.id.filter_frame_layout)
+    FrameLayout filterFrameLayout;
 
     private static MainFragment instance;
     private MainFragmentViewModel viewModel;
     private Unbinder unbinder;
     private TopSliderAdapter topSliderAdapter;
     private SeriesUpdateAdapter seriesUpdateAdapter;
+    private OnClickListener onClickListener;
 
-    public static MainFragment getInstance() {
+    public static MainFragment getInstance(OnClickListener onClickListener) {
         if (instance == null) {
-            instance = new MainFragment();
+            instance = new MainFragment(onClickListener);
         }
         return instance;
+    }
+
+    private MainFragment(OnClickListener onClickListener){
+        this.onClickListener = onClickListener;
     }
 
     @Override
@@ -88,6 +99,7 @@ public class MainFragment extends Fragment {
             seriesUpdateIcon.setImageResource(isExpanded ? R.drawable.add : R.drawable.remove);
             adapter.setExpanded(!isExpanded);
         });
+        filterFrameLayout.setOnClickListener(v -> onClickListener.onFilterClick());
     }
 
     @Override
@@ -99,13 +111,13 @@ public class MainFragment extends Fragment {
     }
 
     private void showTopSlider(FilmsList filmsList) {
-        topSliderAdapter = new TopSliderAdapter(filmsList.getData(), (OnClickListener) getContext());
+        topSliderAdapter = new TopSliderAdapter(filmsList.getData(), (OnClickListener) getContext(), getBaseUrl());
         viewTopSlider.setAdapter(topSliderAdapter);
         viewTopSlider.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
     }
 
     private void showSeriesUpdate(FilmsList filmsList) {
-        seriesUpdateAdapter = SeriesUpdateAdapter.getInstance(filmsList.getData(), (OnClickListener) getContext());
+        seriesUpdateAdapter = SeriesUpdateAdapter.getInstance(filmsList.getData(), (OnClickListener) getContext(), getBaseUrl());
         seriesUpdateIcon.setImageResource(seriesUpdateAdapter.isExpanded() ? R.drawable.remove : R.drawable.add);
         viewSeriesUpdate.setAdapter(seriesUpdateAdapter);
         viewSeriesUpdate.setLayoutManager(new GridLayoutManager(getContext(), 2));
