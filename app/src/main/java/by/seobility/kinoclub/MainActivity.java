@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import by.seobility.kinoclub.repo.models.RowForChooseList;
 import by.seobility.kinoclub.repo.models.Film;
 import by.seobility.kinoclub.ui.filmviewer.FilmViewerFragment;
+import by.seobility.kinoclub.ui.filter.ChooseListFragment;
 import by.seobility.kinoclub.ui.filter.FilterFragment;
 import by.seobility.kinoclub.ui.main.MainFragment;
 import by.seobility.kinoclub.utils.OnClickListener;
@@ -41,6 +43,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 .commit();
     }
 
+    private void addChooseListFragment(RowForChooseList rowForChooseList) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, ChooseListFragment.getInstance(rowForChooseList))
+                .addToBackStack(null)
+                .commit();
+    }
+
     @Override
     public void onFilmClick(Film film) {
         addFilmViewerFragment(film);
@@ -49,5 +58,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     public void onFilterClick() {
         addFilterFragment();
+    }
+
+    @Override
+    public void onCategoriesClick(RowForChooseList rowForChooseList) {
+        addChooseListFragment(rowForChooseList);
     }
 }

@@ -199,7 +199,6 @@ public class MainFragment extends FragmentsParent {
         filmsListAdapter = new FilmsListAdapter(getContext(), filmsList.getData(), (OnClickListener) getContext(), getBaseUrl());
         filmsListView.setAdapter(filmsListAdapter);
         filmsListView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-//        filmsListView.suppressLayout(true);
-//        filmsListView.setNestedScrollingEnabled(false);
+        filmsListView.setNestedScrollingEnabled(false);
     }
 }

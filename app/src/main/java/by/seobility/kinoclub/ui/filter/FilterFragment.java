@@ -1,5 +1,6 @@
 package by.seobility.kinoclub.ui.filter;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.slider.RangeSlider;
 
@@ -18,7 +20,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import by.seobility.kinoclub.R;
-import by.seobility.kinoclub.ui.main.SeriesUpdateAdapter;
+import by.seobility.kinoclub.utils.OnClickListener;
+import by.seobility.kinoclub.utils.ViewModelFactory;
 
 public class FilterFragment extends Fragment {
 
@@ -41,6 +44,8 @@ public class FilterFragment extends Fragment {
 
     private static FilterFragment instance;
     private Unbinder unbinder;
+    private FilterViewModel viewModel;
+    private OnClickListener onBtnClick;
 
     public static FilterFragment getInstance(){
         if (instance == null){
@@ -50,6 +55,29 @@ public class FilterFragment extends Fragment {
     }
 
     private FilterFragment(){}
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnClickListener) {
+            onBtnClick = (OnClickListener) context;
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (onBtnClick != null){
+            onBtnClick = null;
+        }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ViewModelFactory viewModelFactory = new ViewModelFactory(getActivity().getApplication());
+        viewModel = new ViewModelProvider(this, viewModelFactory).get(FilterViewModel.class);
+    }
 
     @Nullable
     @Override
@@ -62,6 +90,11 @@ public class FilterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
+        category.setOnClickListener(v -> {
+            viewModel.getCategories().observe(getViewLifecycleOwner(),
+                    categoriesList -> onBtnClick.onCategoriesClick(categoriesList));
+            viewModel.fetchCategories();
+        });
     }
 
     @Override

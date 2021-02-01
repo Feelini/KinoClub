@@ -34,4 +34,7 @@
         <item>Рейтингу</item>
         <item>Популярности</item>
     </string-array>
+
+    <string name="default_search">Поиск...</string>
+    <string name="add">Добавить</string>
 </resources>
