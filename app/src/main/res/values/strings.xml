@@ -24,4 +24,14 @@
     <string name="choose_year">Выбрать год</string>
     <string name="filter_apply">Применить</string>
     <string name="choose_list_submit">Подтвердить</string>
+    <string name="sorted_by">Сортировать по</string>
+    <string name="order_by_date_text">Дата</string>
+    <string name="order_by_rate_text">Рейтинг</string>
+    <string name="watch">Смотреть</string>
+    <string-array name="order_by">
+        <item>Дате обновления</item>
+        <item>Дате выхода</item>
+        <item>Рейтингу</item>
+        <item>Популярности</item>
+    </string-array>
 </resources>

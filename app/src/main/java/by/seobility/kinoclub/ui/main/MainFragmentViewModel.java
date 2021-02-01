@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import by.seobility.kinoclub.repo.Repository;
 import by.seobility.kinoclub.repo.models.FilmsList;
+import by.seobility.kinoclub.repo.models.FilmsListQuery;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -17,6 +18,7 @@ public class MainFragmentViewModel extends AndroidViewModel {
     private Repository repository;
     private MutableLiveData<FilmsList> topSliderLiveData = new MutableLiveData<>();
     private MutableLiveData<FilmsList> seriesUpdateLiveData = new MutableLiveData<>();
+    private MutableLiveData<FilmsList> filmsList = new MutableLiveData<>();
 
     public MainFragmentViewModel(@NonNull Application application, Repository repository) {
         super(application);
@@ -63,5 +65,26 @@ public class MainFragmentViewModel extends AndroidViewModel {
 
     public LiveData<FilmsList> getSeriesUpdate() {
         return seriesUpdateLiveData;
+    }
+
+    public void fetchFilmsList(FilmsListQuery query) {
+        repository.getFilmsList(query)
+                .thenAccept(filmsListCall -> {
+                    filmsListCall.enqueue(new Callback<FilmsList>() {
+                        @Override
+                        public void onResponse(Call<FilmsList> call, Response<FilmsList> response) {
+                            filmsList.postValue(response.body());
+                        }
+
+                        @Override
+                        public void onFailure(Call<FilmsList> call, Throwable t) {
+                            t.getMessage();
+                        }
+                    });
+                });
+    }
+
+    public LiveData<FilmsList> getFilmsList() {
+        return filmsList;
     }
 }

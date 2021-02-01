@@ -12,7 +12,6 @@
     <dimen name="poster_medium_height">245dp</dimen>
     <dimen name="poster_big_width">350dp</dimen>
     <dimen name="poster_big_height">500dp</dimen>
-
     <dimen name="text_size">15sp</dimen>
     <dimen name="toolbar_text_size">20sp</dimen>
 </resources>

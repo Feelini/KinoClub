@@ -3,13 +3,10 @@ package by.seobility.kinoclub.ui.main;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,16 +14,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import by.seobility.kinoclub.R;
 import by.seobility.kinoclub.repo.models.FilmsList;
+import by.seobility.kinoclub.repo.models.FilmsListQuery;
 import by.seobility.kinoclub.utils.FragmentsParent;
 import by.seobility.kinoclub.utils.OnClickListener;
 import by.seobility.kinoclub.utils.ViewModelFactory;
@@ -37,6 +41,8 @@ public class MainFragment extends FragmentsParent {
     RecyclerView viewTopSlider;
     @BindView(R.id.series_update_list)
     RecyclerView viewSeriesUpdate;
+    @BindView(R.id.films_list)
+    RecyclerView filmsListView;
     @BindView(R.id.series_update)
     ConstraintLayout seriesUpdate;
     @BindView(R.id.series_update_icon)
@@ -45,13 +51,23 @@ public class MainFragment extends FragmentsParent {
     ExpandableLayout seriesUpdateExpandable;
     @BindView(R.id.filter_frame_layout)
     FrameLayout filterFrameLayout;
+    @BindView(R.id.order_by_spinner)
+    Spinner orderBySpinner;
+    @BindView(R.id.order_desc)
+    ImageView orderDesc;
+    @BindView(R.id.order_asc)
+    ImageView orderAsc;
+    @BindView(R.id.order)
+    FrameLayout orderBy;
 
     private static MainFragment instance;
     private MainFragmentViewModel viewModel;
     private Unbinder unbinder;
     private TopSliderAdapter topSliderAdapter;
     private SeriesUpdateAdapter seriesUpdateAdapter;
+    private FilmsListAdapter filmsListAdapter;
     private OnClickListener onClickListener;
+    private FilmsListQuery query = new FilmsListQuery(null, 1, "updated", "desc", null, null, null, null, null);
 
     public static MainFragment getInstance(OnClickListener onClickListener) {
         if (instance == null) {
@@ -60,7 +76,7 @@ public class MainFragment extends FragmentsParent {
         return instance;
     }
 
-    private MainFragment(OnClickListener onClickListener){
+    private MainFragment(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
     }
 
@@ -83,6 +99,10 @@ public class MainFragment extends FragmentsParent {
                 getViewLifecycleOwner(),
                 this::showSeriesUpdate
         );
+        viewModel.getFilmsList().observe(
+                getViewLifecycleOwner(),
+                this::showFilmsList
+        );
         return inflater.inflate(R.layout.main_fragment, container, false);
     }
 
@@ -92,6 +112,7 @@ public class MainFragment extends FragmentsParent {
         unbinder = ButterKnife.bind(this, view);
         viewModel.fetchTopSlider();
         viewModel.fetchSeriesUpdate();
+        viewModel.fetchFilmsList(query);
         seriesUpdate.setOnClickListener(v -> {
             seriesUpdateExpandable.toggle();
             SeriesUpdateAdapter adapter = (SeriesUpdateAdapter) viewSeriesUpdate.getAdapter();
@@ -99,7 +120,56 @@ public class MainFragment extends FragmentsParent {
             seriesUpdateIcon.setImageResource(isExpanded ? R.drawable.add : R.drawable.remove);
             adapter.setExpanded(!isExpanded);
         });
+        orderBy.setOnClickListener(v -> {
+            boolean orderByDesc = orderDesc.getVisibility() == View.VISIBLE;
+            if (orderByDesc){
+                orderDesc.setVisibility(View.GONE);
+                orderAsc.setVisibility(View.VISIBLE);
+                query.setOrder("asc");
+            } else {
+                orderDesc.setVisibility(View.VISIBLE);
+                orderAsc.setVisibility(View.GONE);
+                query.setOrder("desc");
+            }
+            viewModel.fetchFilmsList(query);
+        });
         filterFrameLayout.setOnClickListener(v -> onClickListener.onFilterClick());
+        showOrderSpinner();
+    }
+
+
+    private void showOrderSpinner() {
+        String[] order_by = getContext().getResources().getStringArray(R.array.order_by);
+        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(order_by));
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.item_order_by, arrayList);
+        orderBySpinner.setAdapter(adapter);
+
+        orderBySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View itemSelected,
+                                       int selectedItemPosition, long selectedId) {
+                switch (selectedItemPosition){
+                    case 0:
+                        query.setOrderby("updated");
+                        viewModel.fetchFilmsList(query);
+                        break;
+                    case 1:
+                        query.setOrderby("year");
+                        viewModel.fetchFilmsList(query);
+                        break;
+                    case 2:
+                        query.setOrderby("rating");
+                        viewModel.fetchFilmsList(query);
+                        break;
+                    case 3:
+                        query.setOrderby("view");
+                        viewModel.fetchFilmsList(query);
+                        break;
+                }
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     @Override
@@ -123,5 +193,13 @@ public class MainFragment extends FragmentsParent {
         viewSeriesUpdate.setLayoutManager(new GridLayoutManager(getContext(), 2));
         viewSeriesUpdate.setNestedScrollingEnabled(false);
         viewSeriesUpdate.addItemDecoration(new SpacesItemDecoration(0, 2));
+    }
+
+    private void showFilmsList(FilmsList filmsList) {
+        filmsListAdapter = new FilmsListAdapter(getContext(), filmsList.getData(), (OnClickListener) getContext(), getBaseUrl());
+        filmsListView.setAdapter(filmsListAdapter);
+        filmsListView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+//        filmsListView.suppressLayout(true);
+//        filmsListView.setNestedScrollingEnabled(false);
     }
 }

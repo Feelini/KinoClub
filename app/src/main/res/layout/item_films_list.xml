@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/dp20"
+    android:layout_marginEnd="@dimen/dp20"
+    android:layout_marginTop="@dimen/dp20"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/rounded_gray_background_with_border"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/films_list_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="@dimen/text_size"
+        android:layout_marginTop="@dimen/dp20"
+        android:layout_marginStart="@dimen/dp20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/films_list_poster"
+        android:layout_width="@dimen/poster_width"
+        android:layout_height="@dimen/poster_height"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp20"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/films_list_title"/>
+
+    <TextView
+        android:id="@+id/films_list_watch_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp20"
+        android:padding="@dimen/dp15"
+        android:textColor="@color/orange"
+        android:text="@string/watch"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="@dimen/text_size"
+        android:background="@drawable/rounded_orange_border"
+        app:layout_constraintStart_toEndOf="@id/films_list_poster"
+        app:layout_constraintTop_toTopOf="@id/films_list_poster"/>
+
+    <ImageView
+        android:id="@+id/films_list_rate_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/star_rate"
+        android:layout_marginTop="@dimen/dp20"
+        android:layout_marginStart="@dimen/dp20"
+        app:tint="@color/orange"
+        app:layout_constraintStart_toEndOf="@id/films_list_poster"
+        app:layout_constraintTop_toBottomOf="@id/films_list_watch_btn"/>
+
+    <TextView
+        android:id="@+id/films_list_rate_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="@dimen/text_size"
+        android:layout_marginStart="@dimen/dp5"
+        app:layout_constraintStart_toEndOf="@id/films_list_rate_icon"
+        app:layout_constraintTop_toTopOf="@id/films_list_rate_icon"
+        app:layout_constraintBottom_toBottomOf="@id/films_list_rate_icon"/>
+
+    <TextView
+        android:id="@+id/films_list_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp20"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/category"
+        android:textColor="@color/white_text_grey"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/films_list_poster"/>
+
+    <TextView
+        android:id="@+id/films_list_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp10"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/year"
+        android:textColor="@color/white_text_grey"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/films_list_category"/>
+
+    <TextView
+        android:id="@+id/films_list_qualities"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp10"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/qualites"
+        android:textColor="@color/white_text_grey"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/films_list_year"/>
+
+    <TextView
+        android:id="@+id/films_list_translations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_marginBottom="@dimen/dp20"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/translations"
+        android:textColor="@color/white_text_grey"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/films_list_qualities"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
