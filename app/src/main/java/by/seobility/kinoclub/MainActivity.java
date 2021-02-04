@@ -36,16 +36,23 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 .commit();
     }
 
-    private void addFilterFragment() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, FilterFragment.getInstance())
-                .addToBackStack(null)
-                .commit();
+    private void addFilterFragment(RowForChooseList data, String type) {
+        if (data != null && type != null){
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, FilterFragment.getInstance(data, type))
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, FilterFragment.getInstance())
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 
-    private void addChooseListFragment(RowForChooseList rowForChooseList) {
+    private void addChooseListFragment(RowForChooseList rowForChooseList, String type) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, ChooseListFragment.getInstance(rowForChooseList))
+                .replace(R.id.container, ChooseListFragment.getInstance(rowForChooseList, type))
                 .addToBackStack(null)
                 .commit();
     }
@@ -57,11 +64,26 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     @Override
     public void onFilterClick() {
-        addFilterFragment();
+        addFilterFragment(null, null);
     }
 
     @Override
     public void onCategoriesClick(RowForChooseList rowForChooseList) {
-        addChooseListFragment(rowForChooseList);
+        addChooseListFragment(rowForChooseList, "category");
+    }
+
+    @Override
+    public void onQualitiesClick(RowForChooseList rowForChooseList) {
+        addChooseListFragment(rowForChooseList, "quality");
+    }
+
+    @Override
+    public void onCategoryAdd(RowForChooseList categories) {
+        addFilterFragment(categories, "category");
+    }
+
+    @Override
+    public void onQualityAdd(RowForChooseList qualities) {
+        addFilterFragment(qualities, "quality");
     }
 }

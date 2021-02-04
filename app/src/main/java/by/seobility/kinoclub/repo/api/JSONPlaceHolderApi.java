@@ -20,4 +20,6 @@ public interface JSONPlaceHolderApi {
     Call<FilmsList> getFilmsList(@Body FilmsListQuery query);
     @GET("cats")
     Call<RowForChooseList> getCategories();
+    @GET("qualities")
+    Call<RowForChooseList> getQualities();
 }

@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.slider.RangeSlider;
 
@@ -20,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import by.seobility.kinoclub.R;
+import by.seobility.kinoclub.repo.models.RowForChooseList;
 import by.seobility.kinoclub.utils.OnClickListener;
 import by.seobility.kinoclub.utils.ViewModelFactory;
 
@@ -41,11 +44,20 @@ public class FilterFragment extends Fragment {
     EditText filterYearEnd;
     @BindView(R.id.filter_year_slider)
     RangeSlider filterYearSlider;
+    @BindView(R.id.category_list)
+    RecyclerView categoryList;
+    @BindView(R.id.qualities_list)
+    RecyclerView qualityList;
 
     private static FilterFragment instance;
     private Unbinder unbinder;
     private FilterViewModel viewModel;
     private OnClickListener onBtnClick;
+    private static RowForChooseList categoryUserList;
+    private RowForChooseList qualityUserList;
+    private String type;
+    private CategoryAdapter categoryAdapter;
+    private QualitiesAdapter qualitiesAdapter;
 
     public static FilterFragment getInstance(){
         if (instance == null){
@@ -54,7 +66,28 @@ public class FilterFragment extends Fragment {
         return instance;
     }
 
+    public static FilterFragment getInstance(RowForChooseList data, String type){
+        instance = new FilterFragment(data, type);
+        return instance;
+    }
+
     private FilterFragment(){}
+
+    private FilterFragment(RowForChooseList data, String type){
+        switch (type){
+            case "category":
+                categoryUserList = data;
+                break;
+            case "quality":
+                this.qualityUserList = data;
+                break;
+        }
+        this.type = type;
+    }
+
+    public static void setCategory(RowForChooseList category){
+        categoryUserList = category;
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -95,6 +128,17 @@ public class FilterFragment extends Fragment {
                     categoriesList -> onBtnClick.onCategoriesClick(categoriesList));
             viewModel.fetchCategories();
         });
+        quality.setOnClickListener(v -> {
+            viewModel.getQualities().observe(getViewLifecycleOwner(),
+                    qualitiesList -> onBtnClick.onQualitiesClick(qualitiesList));
+            viewModel.fetchQualities();
+        });
+        if (categoryUserList != null ){
+            showCategory(categoryUserList);
+        }
+        if (qualityUserList != null ){
+            showQualities(qualityUserList);
+        }
     }
 
     @Override
@@ -103,5 +147,17 @@ public class FilterFragment extends Fragment {
         if (unbinder != null) {
             unbinder.unbind();
         }
+    }
+
+    private void showCategory(RowForChooseList categories){
+        categoryAdapter = new CategoryAdapter(categories.getData());
+        categoryList.setAdapter(categoryAdapter);
+        categoryList.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+    }
+
+    private void showQualities(RowForChooseList qualities){
+        qualitiesAdapter = new QualitiesAdapter(qualities.getData());
+        qualityList.setAdapter(qualitiesAdapter);
+        qualityList.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
     }
 }

@@ -35,6 +35,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filter_close"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/category_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/filter_category"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <Button
         android:id="@+id/filter_quality"
         android:text="@string/choose_quality"
@@ -49,7 +57,15 @@
         android:layout_marginEnd="@dimen/dp20"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filter_category"/>
+        app:layout_constraintTop_toBottomOf="@id/category_list"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/qualities_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/filter_quality"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/filter_genre"
@@ -65,7 +81,7 @@
         android:layout_marginEnd="@dimen/dp20"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filter_quality"/>
+        app:layout_constraintTop_toBottomOf="@id/qualities_list"/>
 
     <Button
         android:id="@+id/filter_country"

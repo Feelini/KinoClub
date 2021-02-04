@@ -1,5 +1,6 @@
 package by.seobility.kinoclub.ui.filter;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import by.seobility.kinoclub.R;
 import by.seobility.kinoclub.repo.models.RowForChooseList;
+import by.seobility.kinoclub.utils.OnClickListener;
 
 public class ChooseListFragment extends Fragment {
     @BindView(R.id.chooseList)
@@ -32,13 +34,32 @@ public class ChooseListFragment extends Fragment {
     private ChooseListAdapter adapter;
     private static ChooseListFragment instance;
     private RowForChooseList rowForChooseList;
+    private String type;
+    private OnClickListener onClickListener;
 
-    public static ChooseListFragment getInstance(RowForChooseList rowForChooseList){
-        return new ChooseListFragment(rowForChooseList);
+    public static ChooseListFragment getInstance(RowForChooseList rowForChooseList, String type){
+        return new ChooseListFragment(rowForChooseList, type);
     }
 
-    public ChooseListFragment(RowForChooseList rowForChooseList){
+    public ChooseListFragment(RowForChooseList rowForChooseList, String type){
         this.rowForChooseList = rowForChooseList;
+        this.type = type;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnClickListener) {
+            onClickListener = (OnClickListener) context;
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (onClickListener != null){
+            onClickListener = null;
+        }
     }
 
     @Nullable
@@ -66,6 +87,18 @@ public class ChooseListFragment extends Fragment {
                 return false;
             }
         });
+        addChoose.setOnClickListener(v -> {
+            switch (type){
+                case "category":
+                    adapter = (ChooseListAdapter) chooseList.getAdapter();
+                    onClickListener.onCategoryAdd(new RowForChooseList(null, adapter.getCheckedRowForChooses(), null));
+                    break;
+                case "quality":
+                    adapter = (ChooseListAdapter) chooseList.getAdapter();
+                    onClickListener.onQualityAdd(new RowForChooseList(null, adapter.getCheckedRowForChooses(), null));
+                    break;
+            }
+        });
     }
 
     @Override
@@ -77,7 +110,7 @@ public class ChooseListFragment extends Fragment {
     }
 
     private void showChooseList(RowForChooseList rowForChooseList) {
-        adapter = new ChooseListAdapter(rowForChooseList.getCategories());
+        adapter = new ChooseListAdapter(rowForChooseList.getData());
         chooseList.setAdapter(adapter);
         chooseList.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
     }

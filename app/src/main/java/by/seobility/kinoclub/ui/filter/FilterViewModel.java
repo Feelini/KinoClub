@@ -17,6 +17,7 @@ public class FilterViewModel extends AndroidViewModel {
 
     private Repository repository;
     private MutableLiveData<RowForChooseList> categories = new MutableLiveData<>();
+    private MutableLiveData<RowForChooseList> qualities = new MutableLiveData<>();
 
     public FilterViewModel(@NonNull Application application, Repository repository) {
         super(application);
@@ -42,5 +43,26 @@ public class FilterViewModel extends AndroidViewModel {
 
     public LiveData<RowForChooseList> getCategories() {
         return categories;
+    }
+
+    public void fetchQualities() {
+        repository.getQualities()
+                .thenAccept(qualitiesListCall -> {
+                    qualitiesListCall.enqueue(new Callback<RowForChooseList>() {
+                        @Override
+                        public void onResponse(Call<RowForChooseList> call, Response<RowForChooseList> response) {
+                            qualities.postValue(response.body());
+                        }
+
+                        @Override
+                        public void onFailure(Call<RowForChooseList> call, Throwable t) {
+                            t.getMessage();
+                        }
+                    });
+                });
+    }
+
+    public LiveData<RowForChooseList> getQualities() {
+        return qualities;
     }
 }

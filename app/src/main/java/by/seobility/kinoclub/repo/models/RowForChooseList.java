@@ -21,7 +21,7 @@ public class RowForChooseList {
         this.status = status;
     }
 
-    public List<RowForChoose> getCategories() {
+    public List<RowForChoose> getData() {
         return data;
     }
 
