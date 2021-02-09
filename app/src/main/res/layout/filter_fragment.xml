@@ -20,70 +20,6 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
-        android:id="@+id/filter_category"
-        android:text="@string/choose_category"
-        android:background="@drawable/rounded_gray_background"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white_white_text_grey"
-        android:fontFamily="@font/montserrat"
-        android:textAllCaps="false"
-        android:layout_marginStart="@dimen/dp20"
-        android:layout_marginTop="@dimen/dp20"
-        android:layout_marginEnd="@dimen/dp20"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filter_close"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/category_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/filter_category"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/filter_quality"
-        android:text="@string/choose_quality"
-        android:background="@drawable/rounded_gray_background"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white_white_text_grey"
-        android:fontFamily="@font/montserrat"
-        android:textAllCaps="false"
-        android:layout_marginStart="@dimen/dp20"
-        android:layout_marginTop="@dimen/dp20"
-        android:layout_marginEnd="@dimen/dp20"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/category_list"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/qualities_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/filter_quality"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/filter_genre"
-        android:text="@string/choose_genre"
-        android:background="@drawable/rounded_gray_background"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white_white_text_grey"
-        android:fontFamily="@font/montserrat"
-        android:textAllCaps="false"
-        android:layout_marginStart="@dimen/dp20"
-        android:layout_marginTop="@dimen/dp20"
-        android:layout_marginEnd="@dimen/dp20"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/qualities_list"/>
-
-    <Button
         android:id="@+id/filter_country"
         android:text="@string/choose_country"
         android:background="@drawable/rounded_gray_background"
@@ -97,7 +33,7 @@
         android:layout_marginEnd="@dimen/dp20"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filter_genre"/>
+        app:layout_constraintTop_toBottomOf="@id/filter_close"/>
 
     <TextView
         android:id="@+id/filter_year_text"
@@ -160,6 +96,7 @@
         app:layout_constraintTop_toBottomOf="@id/filter_year_layout"/>
 
     <FrameLayout
+        android:id="@+id/confirm_filter_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp20"
@@ -170,6 +107,7 @@
         app:layout_constraintTop_toBottomOf="@id/filter_year_slider">
 
         <TextView
+            android:id="@+id/confirm_filter_btn_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"

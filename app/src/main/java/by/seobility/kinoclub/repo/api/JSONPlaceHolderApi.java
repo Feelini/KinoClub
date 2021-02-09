@@ -22,4 +22,6 @@ public interface JSONPlaceHolderApi {
     Call<RowForChooseList> getCategories();
     @GET("qualities")
     Call<RowForChooseList> getQualities();
+    @GET("genres")
+    Call<RowForChooseList> getGenres();
 }

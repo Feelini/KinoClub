@@ -67,12 +67,20 @@ public class MainFragment extends FragmentsParent {
     private SeriesUpdateAdapter seriesUpdateAdapter;
     private FilmsListAdapter filmsListAdapter;
     private OnClickListener onClickListener;
-    private FilmsListQuery query = new FilmsListQuery(null, 1, "updated", "desc", null, null, null, null, null);
+    private static FilmsListQuery query = new FilmsListQuery(null, 1, "updated", "desc", null, null, null, null, null);
 
     public static MainFragment getInstance(OnClickListener onClickListener) {
         if (instance == null) {
             instance = new MainFragment(onClickListener);
         }
+        return instance;
+    }
+
+    public static MainFragment getInstance(OnClickListener onClickListener, FilmsListQuery newQuery) {
+        if (instance == null) {
+            instance = new MainFragment(onClickListener);
+        }
+        query = newQuery;
         return instance;
     }
 

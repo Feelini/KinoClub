@@ -15,4 +15,5 @@ public interface Repository {
     CompletableFuture<Call<FilmsList>> getFilmsList(FilmsListQuery query);
     CompletableFuture<Call<RowForChooseList>> getCategories();
     CompletableFuture<Call<RowForChooseList>> getQualities();
+    CompletableFuture<Call<RowForChooseList>> getGenres();
 }

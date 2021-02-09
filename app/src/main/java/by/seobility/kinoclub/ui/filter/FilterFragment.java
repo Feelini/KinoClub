@@ -7,57 +7,61 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.slider.RangeSlider;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import by.seobility.kinoclub.R;
+import by.seobility.kinoclub.repo.models.FilmsList;
+import by.seobility.kinoclub.repo.models.FilmsListQuery;
+import by.seobility.kinoclub.repo.models.RowForChoose;
 import by.seobility.kinoclub.repo.models.RowForChooseList;
 import by.seobility.kinoclub.utils.OnClickListener;
 import by.seobility.kinoclub.utils.ViewModelFactory;
 
 public class FilterFragment extends Fragment {
 
-    @BindView(R.id.filter_category)
-    Button category;
-    @BindView(R.id.filter_quality)
-    Button quality;
-    @BindView(R.id.filter_genre)
-    Button genre;
-    @BindView(R.id.filter_country)
-    Button country;
     @BindView(R.id.filter_close)
     ImageView filterClose;
-    @BindView(R.id.filter_year_start)
-    EditText filterYearStart;
-    @BindView(R.id.filter_year_end)
-    EditText filterYearEnd;
-    @BindView(R.id.filter_year_slider)
-    RangeSlider filterYearSlider;
-    @BindView(R.id.category_list)
-    RecyclerView categoryList;
-    @BindView(R.id.qualities_list)
-    RecyclerView qualityList;
+//    @BindView(R.id.filter_year_start)
+//    EditText filterYearStart;
+//    @BindView(R.id.filter_year_end)
+//    EditText filterYearEnd;
+//    @BindView(R.id.filter_year_slider)
+//    RangeSlider filterYearSlider;
+    @BindView(R.id.filer_list_view)
+    RecyclerView filerListView;
+//    @BindView(R.id.confirm_filter_btn)
+//    FrameLayout confirmFilterBtn;
 
     private static FilterFragment instance;
     private Unbinder unbinder;
     private FilterViewModel viewModel;
     private OnClickListener onBtnClick;
-    private static RowForChooseList categoryUserList;
+    private RowForChooseList categoryUserList;
     private RowForChooseList qualityUserList;
+    private RowForChooseList genreUserList;
     private String type;
     private CategoryAdapter categoryAdapter;
     private QualitiesAdapter qualitiesAdapter;
+    private GenresAdapter genresAdapter;
+    private FilterAdapter filterAdapter;
+    private FilmsListQuery query = new FilmsListQuery(null, 1, "updated", "desc", null, null, null, null, null);
 
     public static FilterFragment getInstance(){
         if (instance == null){
@@ -67,13 +71,13 @@ public class FilterFragment extends Fragment {
     }
 
     public static FilterFragment getInstance(RowForChooseList data, String type){
-        instance = new FilterFragment(data, type);
+        instance.addData(data, type);
         return instance;
     }
 
     private FilterFragment(){}
 
-    private FilterFragment(RowForChooseList data, String type){
+    private void addData(RowForChooseList data, String type){
         switch (type){
             case "category":
                 categoryUserList = data;
@@ -81,12 +85,10 @@ public class FilterFragment extends Fragment {
             case "quality":
                 this.qualityUserList = data;
                 break;
+            case "genre":
+                this.genreUserList = data;
+                break;
         }
-        this.type = type;
-    }
-
-    public static void setCategory(RowForChooseList category){
-        categoryUserList = category;
     }
 
     @Override
@@ -116,28 +118,45 @@ public class FilterFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.filter_fragment, container, false);
+//        viewModel.getFilmsList().observe(
+//                getViewLifecycleOwner(), filmsList -> onBtnClick.onFilterConfirm(filmsList)
+//        );
+        return inflater.inflate(R.layout.filter_fragment_2, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
-        category.setOnClickListener(v -> {
-            viewModel.getCategories().observe(getViewLifecycleOwner(),
-                    categoriesList -> onBtnClick.onCategoriesClick(categoriesList));
-            viewModel.fetchCategories();
-        });
-        quality.setOnClickListener(v -> {
-            viewModel.getQualities().observe(getViewLifecycleOwner(),
-                    qualitiesList -> onBtnClick.onQualitiesClick(qualitiesList));
-            viewModel.fetchQualities();
-        });
-        if (categoryUserList != null ){
-            showCategory(categoryUserList);
-        }
-        if (qualityUserList != null ){
-            showQualities(qualityUserList);
+        showFilter();
+//        confirmFilterBtn.setOnClickListener(v -> {
+//            categoryAdapter = (CategoryAdapter) categoryList.getAdapter();
+//            qualitiesAdapter = (QualitiesAdapter) qualityList.getAdapter();
+//            genresAdapter = (GenresAdapter) genresList.getAdapter();
+//
+//            String categoryId = getIdsString(categoryAdapter.getCategories());
+//            String qualityId = getIdsString(qualitiesAdapter.getQualities());
+//            String genreId = getIdsString(genresAdapter.getGenres());
+//
+//            query.setCat(categoryId);
+//            query.setQuality(qualityId);
+//            query.setGenre(genreId);
+//
+//            onBtnClick.onFilterConfirm(query);
+
+//            viewModel.fetchFilmsList(query);
+//        });
+    }
+
+    private String getIdsString(List<RowForChoose> data){
+        if (!data.isEmpty()) {
+            StringBuilder dataId = new StringBuilder();
+            for (RowForChoose item : data) {
+                dataId.append(item.getId()).append(",");
+            }
+            return dataId.deleteCharAt(dataId.length() - 1).toString();
+        } else {
+            return null;
         }
     }
 
@@ -149,15 +168,31 @@ public class FilterFragment extends Fragment {
         }
     }
 
-    private void showCategory(RowForChooseList categories){
-        categoryAdapter = new CategoryAdapter(categories.getData());
-        categoryList.setAdapter(categoryAdapter);
-        categoryList.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-    }
-
-    private void showQualities(RowForChooseList qualities){
-        qualitiesAdapter = new QualitiesAdapter(qualities.getData());
-        qualityList.setAdapter(qualitiesAdapter);
-        qualityList.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+    private void showFilter(){
+        ButtonRowType categoryBtn = new ButtonRowType("category");
+        ButtonRowType qualityBtn = new ButtonRowType("quality");
+        ButtonRowType genreBtn = new ButtonRowType("genre");
+        List<RowType> filterList = new ArrayList<>();
+        filterList.add(categoryBtn);
+        if (categoryUserList != null ){
+            for (RowForChoose row: categoryUserList.getData()){
+                filterList.add(new ListRowType(row.getName()));
+            }
+        }
+        filterList.add(qualityBtn);
+        if (qualityUserList != null ){
+            for (RowForChoose row: qualityUserList.getData()){
+                filterList.add(new ListRowType(row.getName()));
+            }
+        }
+        filterList.add(genreBtn);
+        if (genreUserList != null ){
+            for (RowForChoose row: genreUserList.getData()){
+                filterList.add(new ListRowType(row.getName()));
+            }
+        }
+        filterAdapter = new FilterAdapter(filterList, getContext(), viewModel, getViewLifecycleOwner(), onBtnClick);
+        filerListView.setAdapter(filterAdapter);
+        filerListView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
     }
 }

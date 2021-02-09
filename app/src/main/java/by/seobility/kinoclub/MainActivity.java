@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import by.seobility.kinoclub.repo.models.FilmsList;
+import by.seobility.kinoclub.repo.models.FilmsListQuery;
 import by.seobility.kinoclub.repo.models.RowForChooseList;
 import by.seobility.kinoclub.repo.models.Film;
 import by.seobility.kinoclub.ui.filmviewer.FilmViewerFragment;
@@ -26,6 +28,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private void addMainFragment() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, MainFragment.getInstance(this))
+                .commit();
+    }
+
+    private void addMainFragment(FilmsListQuery query) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, MainFragment.getInstance(this, query))
                 .commit();
     }
 
@@ -78,6 +86,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     @Override
+    public void onGenresClick(RowForChooseList rowForChooseList) {
+        addChooseListFragment(rowForChooseList, "genre");
+    }
+
+    @Override
     public void onCategoryAdd(RowForChooseList categories) {
         addFilterFragment(categories, "category");
     }
@@ -85,5 +98,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     public void onQualityAdd(RowForChooseList qualities) {
         addFilterFragment(qualities, "quality");
+    }
+
+    @Override
+    public void onGenreAdd(RowForChooseList genres) {
+        addFilterFragment(genres, "genre");
+    }
+
+    @Override
+    public void onFilterConfirm(FilmsListQuery query) {
+        addMainFragment(query);
     }
 }

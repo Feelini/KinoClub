@@ -24,6 +24,10 @@ public class QualitiesAdapter extends RecyclerView.Adapter<QualitiesAdapter.Qual
         this.qualities = qualities;
     }
 
+    public List<RowForChoose> getQualities(){
+        return qualities;
+    }
+
     @NonNull
     @Override
     public QualitiesAdapter.QualityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

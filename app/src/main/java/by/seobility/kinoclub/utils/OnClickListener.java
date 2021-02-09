@@ -1,6 +1,7 @@
 package by.seobility.kinoclub.utils;
 
-import by.seobility.kinoclub.repo.models.RowForChoose;
+import by.seobility.kinoclub.repo.models.FilmsList;
+import by.seobility.kinoclub.repo.models.FilmsListQuery;
 import by.seobility.kinoclub.repo.models.RowForChooseList;
 import by.seobility.kinoclub.repo.models.Film;
 
@@ -9,6 +10,9 @@ public interface OnClickListener {
     void onFilterClick();
     void onCategoriesClick(RowForChooseList rowForChooseList);
     void onQualitiesClick(RowForChooseList rowForChooseList);
+    void onGenresClick(RowForChooseList rowForChooseList);
     void onCategoryAdd(RowForChooseList categories);
     void onQualityAdd(RowForChooseList qualities);
+    void onGenreAdd(RowForChooseList genres);
+    void onFilterConfirm(FilmsListQuery query);
 }
