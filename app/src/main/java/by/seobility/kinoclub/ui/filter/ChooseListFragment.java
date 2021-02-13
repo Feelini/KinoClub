@@ -101,6 +101,10 @@ public class ChooseListFragment extends Fragment {
                     adapter = (ChooseListAdapter) chooseList.getAdapter();
                     onClickListener.onGenreAdd(new RowForChooseList(null, adapter.getCheckedRowForChooses(), null));
                     break;
+                case "country":
+                    adapter = (ChooseListAdapter) chooseList.getAdapter();
+                    onClickListener.onCountriesAdd(new RowForChooseList(null, adapter.getCheckedRowForChooses(), null));
+                    break;
             }
         });
     }

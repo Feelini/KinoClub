@@ -5,20 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.slider.RangeSlider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +21,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import by.seobility.kinoclub.R;
-import by.seobility.kinoclub.repo.models.FilmsList;
 import by.seobility.kinoclub.repo.models.FilmsListQuery;
 import by.seobility.kinoclub.repo.models.RowForChoose;
 import by.seobility.kinoclub.repo.models.RowForChooseList;
+import by.seobility.kinoclub.ui.filter.rowtypes.ButtonRowType;
+import by.seobility.kinoclub.ui.filter.rowtypes.ListRowType;
+import by.seobility.kinoclub.ui.filter.rowtypes.RowType;
+import by.seobility.kinoclub.ui.filter.rowtypes.SeekbarRowType;
 import by.seobility.kinoclub.utils.OnClickListener;
 import by.seobility.kinoclub.utils.ViewModelFactory;
 
@@ -56,10 +53,8 @@ public class FilterFragment extends Fragment {
     private RowForChooseList categoryUserList;
     private RowForChooseList qualityUserList;
     private RowForChooseList genreUserList;
+    private RowForChooseList countryUserList;
     private String type;
-    private CategoryAdapter categoryAdapter;
-    private QualitiesAdapter qualitiesAdapter;
-    private GenresAdapter genresAdapter;
     private FilterAdapter filterAdapter;
     private FilmsListQuery query = new FilmsListQuery(null, 1, "updated", "desc", null, null, null, null, null);
 
@@ -87,6 +82,9 @@ public class FilterFragment extends Fragment {
                 break;
             case "genre":
                 this.genreUserList = data;
+                break;
+            case "country":
+                this.countryUserList = data;
                 break;
         }
     }
@@ -121,7 +119,7 @@ public class FilterFragment extends Fragment {
 //        viewModel.getFilmsList().observe(
 //                getViewLifecycleOwner(), filmsList -> onBtnClick.onFilterConfirm(filmsList)
 //        );
-        return inflater.inflate(R.layout.filter_fragment_2, container, false);
+        return inflater.inflate(R.layout.filter_fragment, container, false);
     }
 
     @Override
@@ -172,6 +170,7 @@ public class FilterFragment extends Fragment {
         ButtonRowType categoryBtn = new ButtonRowType("category");
         ButtonRowType qualityBtn = new ButtonRowType("quality");
         ButtonRowType genreBtn = new ButtonRowType("genre");
+        ButtonRowType countryBtn = new ButtonRowType("country");
         List<RowType> filterList = new ArrayList<>();
         filterList.add(categoryBtn);
         if (categoryUserList != null ){
@@ -191,6 +190,14 @@ public class FilterFragment extends Fragment {
                 filterList.add(new ListRowType(row.getName()));
             }
         }
+        filterList.add(countryBtn);
+        if (countryUserList != null ){
+            for (RowForChoose row: countryUserList.getData()){
+                filterList.add(new ListRowType(row.getName()));
+            }
+        }
+        SeekbarRowType seekbarRowType = new SeekbarRowType(1902, 2021);
+        filterList.add(seekbarRowType);
         filterAdapter = new FilterAdapter(filterList, getContext(), viewModel, getViewLifecycleOwner(), onBtnClick);
         filerListView.setAdapter(filterAdapter);
         filerListView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));

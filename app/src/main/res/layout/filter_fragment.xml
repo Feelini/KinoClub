@@ -7,117 +7,26 @@
 
     <ImageView
         android:id="@+id/filter_close"
-        android:src="@drawable/close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white_grey"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp20"
-        android:scaleX="1.5"
-        android:scaleY="1.5"
+        android:layout_marginTop="@dimen/dp20"
+        android:layout_marginEnd="@dimen/dp20"
         android:clickable="true"
         android:focusable="true"
-        app:tint="@color/white_grey"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:src="@drawable/close" />
 
-    <Button
-        android:id="@+id/filter_country"
-        android:text="@string/choose_country"
-        android:background="@drawable/rounded_gray_background"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/filer_list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white_white_text_grey"
-        android:fontFamily="@font/montserrat"
-        android:textAllCaps="false"
-        android:layout_marginStart="@dimen/dp20"
-        android:layout_marginTop="@dimen/dp20"
-        android:layout_marginEnd="@dimen/dp20"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filter_close"/>
-
-    <TextView
-        android:id="@+id/filter_year_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp20"
-        android:layout_marginTop="@dimen/dp20"
-        android:text="@string/choose_year"
-        android:textColor="@color/white"
-        android:fontFamily="@font/montserrat"
-        android:textSize="@dimen/text_size"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filter_country"/>
-
-    <LinearLayout
-        android:id="@+id/filter_year_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp20"
-        android:layout_marginEnd="@dimen/dp20"
-        android:layout_marginTop="@dimen/dp20"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filter_year_text">
-
-        <EditText
-            android:id="@+id/filter_year_start"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:paddingStart="@dimen/dp15"
-            android:textColor="@color/white"
-            android:fontFamily="@font/montserrat"
-            android:textSize="@dimen/text_size"
-            android:background="@drawable/rounded_gray_background_with_border"
-            android:layout_marginEnd="@dimen/dp20"/>
-
-        <EditText
-            android:id="@+id/filter_year_end"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:paddingStart="@dimen/dp15"
-            android:textColor="@color/white"
-            android:fontFamily="@font/montserrat"
-            android:textSize="@dimen/text_size"
-            android:background="@drawable/rounded_gray_background_with_border"/>
-
-    </LinearLayout>
-
-    <com.google.android.material.slider.RangeSlider
-        android:id="@+id/filter_year_slider"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp20"
-        android:layout_marginEnd="@dimen/dp20"
-        android:layout_marginTop="@dimen/dp20"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filter_year_layout"/>
-
-    <FrameLayout
-        android:id="@+id/confirm_filter_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp20"
-        android:layout_marginTop="@dimen/dp20"
-        android:layout_marginEnd="@dimen/dp20"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filter_year_slider">
-
-        <TextView
-            android:id="@+id/confirm_filter_btn_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="@string/filter_apply"
-            android:padding="@dimen/dp10"
-            android:background="@drawable/rounded_orange_background"
-            android:textColor="@color/white"
-            android:fontFamily="@font/montserrat_bold"
-            android:textAllCaps="false"/>
-
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="@id/filter_close"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

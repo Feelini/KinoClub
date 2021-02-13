@@ -1,4 +1,4 @@
-package by.seobility.kinoclub.ui.filter;
+package by.seobility.kinoclub.ui.filter.rowtypes;
 
 public class ListRowType implements RowType {
     private String text;
@@ -9,5 +9,10 @@ public class ListRowType implements RowType {
 
     public String getText(){
         return text;
+    }
+
+    @Override
+    public int getItemViewType() {
+        return RowType.LIST_ROW_TYPE;
     }
 }

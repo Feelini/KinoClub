@@ -16,4 +16,5 @@ public interface Repository {
     CompletableFuture<Call<RowForChooseList>> getCategories();
     CompletableFuture<Call<RowForChooseList>> getQualities();
     CompletableFuture<Call<RowForChooseList>> getGenres();
+    CompletableFuture<Call<RowForChooseList>> getCountries();
 }

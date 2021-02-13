@@ -91,6 +91,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     @Override
+    public void onCountriesClick(RowForChooseList rowForChooseList) {
+        addChooseListFragment(rowForChooseList, "country");
+    }
+
+    @Override
     public void onCategoryAdd(RowForChooseList categories) {
         addFilterFragment(categories, "category");
     }
@@ -103,6 +108,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     public void onGenreAdd(RowForChooseList genres) {
         addFilterFragment(genres, "genre");
+    }
+
+    @Override
+    public void onCountriesAdd(RowForChooseList countries) {
+        addFilterFragment(countries, "country");
     }
 
     @Override

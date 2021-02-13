@@ -1,10 +1,11 @@
-package by.seobility.kinoclub.ui.filter;
+package by.seobility.kinoclub.ui.filter.rowtypes;
 
 import android.view.View;
 
 import androidx.lifecycle.LifecycleOwner;
 
 import by.seobility.kinoclub.R;
+import by.seobility.kinoclub.ui.filter.FilterViewModel;
 import by.seobility.kinoclub.utils.OnClickListener;
 
 public class ButtonRowType implements RowType {
@@ -22,6 +23,8 @@ public class ButtonRowType implements RowType {
                 return R.string.choose_quality;
             case "genre":
                 return R.string.choose_genre;
+            case "country":
+                return R.string.choose_country;
             default:
                 return 0;
         }
@@ -47,8 +50,19 @@ public class ButtonRowType implements RowType {
                             onBtnClick::onGenresClick);
                     viewModel.fetchGenres();
                 };
+            case "country":
+                return v -> {
+                    viewModel.getCountries().observe(lifecycleOwner,
+                            onBtnClick::onCountriesClick);
+                    viewModel.fetchCountries();
+                };
             default:
                 return null;
         }
+    }
+
+    @Override
+    public int getItemViewType() {
+        return RowType.BUTTON_ROW_TYPE;
     }
 }

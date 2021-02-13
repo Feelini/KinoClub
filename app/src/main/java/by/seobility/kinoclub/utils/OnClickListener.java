@@ -11,8 +11,10 @@ public interface OnClickListener {
     void onCategoriesClick(RowForChooseList rowForChooseList);
     void onQualitiesClick(RowForChooseList rowForChooseList);
     void onGenresClick(RowForChooseList rowForChooseList);
+    void onCountriesClick(RowForChooseList rowForChooseList);
     void onCategoryAdd(RowForChooseList categories);
     void onQualityAdd(RowForChooseList qualities);
     void onGenreAdd(RowForChooseList genres);
+    void onCountriesAdd(RowForChooseList countries);
     void onFilterConfirm(FilmsListQuery query);
 }

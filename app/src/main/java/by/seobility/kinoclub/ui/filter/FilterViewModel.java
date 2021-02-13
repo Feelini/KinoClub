@@ -21,6 +21,7 @@ public class FilterViewModel extends AndroidViewModel {
     private MutableLiveData<RowForChooseList> categories = new MutableLiveData<>();
     private MutableLiveData<RowForChooseList> qualities = new MutableLiveData<>();
     private MutableLiveData<RowForChooseList> genres = new MutableLiveData<>();
+    private MutableLiveData<RowForChooseList> countries = new MutableLiveData<>();
     private MutableLiveData<FilmsList> filmsList = new MutableLiveData<>();
 
     public FilterViewModel(@NonNull Application application, Repository repository) {
@@ -89,6 +90,27 @@ public class FilterViewModel extends AndroidViewModel {
 
     public LiveData<RowForChooseList> getGenres() {
         return genres;
+    }
+
+    public void fetchCountries() {
+        repository.getCountries()
+                .thenAccept(countriesListCall -> {
+                    countriesListCall.enqueue(new Callback<RowForChooseList>() {
+                        @Override
+                        public void onResponse(Call<RowForChooseList> call, Response<RowForChooseList> response) {
+                            countries.postValue(response.body());
+                        }
+
+                        @Override
+                        public void onFailure(Call<RowForChooseList> call, Throwable t) {
+                            t.getMessage();
+                        }
+                    });
+                });
+    }
+
+    public LiveData<RowForChooseList> getCountries() {
+        return countries;
     }
 
     public void fetchFilmsList(FilmsListQuery query) {

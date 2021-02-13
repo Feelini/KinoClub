@@ -51,4 +51,10 @@ public class RepositoryImpl implements Repository{
         return CompletableFuture.supplyAsync(() ->
                 NetworkService.getInstance().getJSONApi().getGenres());
     }
+
+    @Override
+    public CompletableFuture<Call<RowForChooseList>> getCountries() {
+        return CompletableFuture.supplyAsync(() ->
+                NetworkService.getInstance().getJSONApi().getCountries());
+    }
 }
