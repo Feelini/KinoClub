@@ -6,6 +6,7 @@ import by.seobility.kinoclub.repo.models.RowForChooseList;
 import by.seobility.kinoclub.repo.models.FilmsList;
 import by.seobility.kinoclub.repo.models.FilmsListQuery;
 import by.seobility.kinoclub.repo.models.SimilarFilms;
+import by.seobility.kinoclub.repo.models.YearsList;
 import retrofit2.Call;
 
 public interface Repository {
@@ -17,4 +18,5 @@ public interface Repository {
     CompletableFuture<Call<RowForChooseList>> getQualities();
     CompletableFuture<Call<RowForChooseList>> getGenres();
     CompletableFuture<Call<RowForChooseList>> getCountries();
+    CompletableFuture<Call<YearsList>> getYears();
 }

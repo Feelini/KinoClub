@@ -4,6 +4,7 @@ import by.seobility.kinoclub.repo.models.RowForChooseList;
 import by.seobility.kinoclub.repo.models.FilmsList;
 import by.seobility.kinoclub.repo.models.FilmsListQuery;
 import by.seobility.kinoclub.repo.models.SimilarFilms;
+import by.seobility.kinoclub.repo.models.YearsList;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -26,4 +27,6 @@ public interface JSONPlaceHolderApi {
     Call<RowForChooseList> getGenres();
     @GET("countries")
     Call<RowForChooseList> getCountries();
+    @GET("get-years")
+    Call<YearsList> getYears();
 }

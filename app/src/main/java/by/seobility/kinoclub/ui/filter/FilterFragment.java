@@ -24,10 +24,13 @@ import by.seobility.kinoclub.R;
 import by.seobility.kinoclub.repo.models.FilmsListQuery;
 import by.seobility.kinoclub.repo.models.RowForChoose;
 import by.seobility.kinoclub.repo.models.RowForChooseList;
+import by.seobility.kinoclub.repo.models.Years;
+import by.seobility.kinoclub.repo.models.YearsList;
 import by.seobility.kinoclub.ui.filter.rowtypes.ButtonRowType;
 import by.seobility.kinoclub.ui.filter.rowtypes.ListRowType;
 import by.seobility.kinoclub.ui.filter.rowtypes.RowType;
 import by.seobility.kinoclub.ui.filter.rowtypes.SeekbarRowType;
+import by.seobility.kinoclub.ui.filter.rowtypes.SubmitButtonRowType;
 import by.seobility.kinoclub.utils.OnClickListener;
 import by.seobility.kinoclub.utils.ViewModelFactory;
 
@@ -35,16 +38,9 @@ public class FilterFragment extends Fragment {
 
     @BindView(R.id.filter_close)
     ImageView filterClose;
-//    @BindView(R.id.filter_year_start)
-//    EditText filterYearStart;
-//    @BindView(R.id.filter_year_end)
-//    EditText filterYearEnd;
-//    @BindView(R.id.filter_year_slider)
-//    RangeSlider filterYearSlider;
     @BindView(R.id.filer_list_view)
-    RecyclerView filerListView;
-//    @BindView(R.id.confirm_filter_btn)
-//    FrameLayout confirmFilterBtn;
+    RecyclerView filterListView;
+
 
     private static FilterFragment instance;
     private Unbinder unbinder;
@@ -54,26 +50,26 @@ public class FilterFragment extends Fragment {
     private RowForChooseList qualityUserList;
     private RowForChooseList genreUserList;
     private RowForChooseList countryUserList;
-    private String type;
-    private FilterAdapter filterAdapter;
+    private Years years;
     private FilmsListQuery query = new FilmsListQuery(null, 1, "updated", "desc", null, null, null, null, null);
 
-    public static FilterFragment getInstance(){
-        if (instance == null){
+    public static FilterFragment getInstance() {
+        if (instance == null) {
             instance = new FilterFragment();
         }
         return instance;
     }
 
-    public static FilterFragment getInstance(RowForChooseList data, String type){
+    public static FilterFragment getInstance(RowForChooseList data, String type) {
         instance.addData(data, type);
         return instance;
     }
 
-    private FilterFragment(){}
+    private FilterFragment() {
+    }
 
-    private void addData(RowForChooseList data, String type){
-        switch (type){
+    private void addData(RowForChooseList data, String type) {
+        switch (type) {
             case "category":
                 categoryUserList = data;
                 break;
@@ -100,7 +96,7 @@ public class FilterFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        if (onBtnClick != null){
+        if (onBtnClick != null) {
             onBtnClick = null;
         }
     }
@@ -116,9 +112,7 @@ public class FilterFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-//        viewModel.getFilmsList().observe(
-//                getViewLifecycleOwner(), filmsList -> onBtnClick.onFilterConfirm(filmsList)
-//        );
+        viewModel.getYears().observe(getViewLifecycleOwner(), this::showFilter);
         return inflater.inflate(R.layout.filter_fragment, container, false);
     }
 
@@ -126,36 +120,7 @@ public class FilterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
-        showFilter();
-//        confirmFilterBtn.setOnClickListener(v -> {
-//            categoryAdapter = (CategoryAdapter) categoryList.getAdapter();
-//            qualitiesAdapter = (QualitiesAdapter) qualityList.getAdapter();
-//            genresAdapter = (GenresAdapter) genresList.getAdapter();
-//
-//            String categoryId = getIdsString(categoryAdapter.getCategories());
-//            String qualityId = getIdsString(qualitiesAdapter.getQualities());
-//            String genreId = getIdsString(genresAdapter.getGenres());
-//
-//            query.setCat(categoryId);
-//            query.setQuality(qualityId);
-//            query.setGenre(genreId);
-//
-//            onBtnClick.onFilterConfirm(query);
-
-//            viewModel.fetchFilmsList(query);
-//        });
-    }
-
-    private String getIdsString(List<RowForChoose> data){
-        if (!data.isEmpty()) {
-            StringBuilder dataId = new StringBuilder();
-            for (RowForChoose item : data) {
-                dataId.append(item.getId()).append(",");
-            }
-            return dataId.deleteCharAt(dataId.length() - 1).toString();
-        } else {
-            return null;
-        }
+        viewModel.fetchYears();
     }
 
     @Override
@@ -166,40 +131,86 @@ public class FilterFragment extends Fragment {
         }
     }
 
-    private void showFilter(){
+    private void showFilter(YearsList years) {
+        this.years = years.getData();
         ButtonRowType categoryBtn = new ButtonRowType("category");
         ButtonRowType qualityBtn = new ButtonRowType("quality");
         ButtonRowType genreBtn = new ButtonRowType("genre");
         ButtonRowType countryBtn = new ButtonRowType("country");
         List<RowType> filterList = new ArrayList<>();
         filterList.add(categoryBtn);
-        if (categoryUserList != null ){
-            for (RowForChoose row: categoryUserList.getData()){
-                filterList.add(new ListRowType(row.getName()));
+        if (categoryUserList != null) {
+            for (RowForChoose row : categoryUserList.getData()) {
+                filterList.add(new ListRowType(row.getId(), row.getName(), "category"));
             }
         }
         filterList.add(qualityBtn);
-        if (qualityUserList != null ){
-            for (RowForChoose row: qualityUserList.getData()){
-                filterList.add(new ListRowType(row.getName()));
+        if (qualityUserList != null) {
+            for (RowForChoose row : qualityUserList.getData()) {
+                filterList.add(new ListRowType(row.getId(), row.getName(), "quality"));
             }
         }
         filterList.add(genreBtn);
-        if (genreUserList != null ){
-            for (RowForChoose row: genreUserList.getData()){
-                filterList.add(new ListRowType(row.getName()));
+        if (genreUserList != null) {
+            for (RowForChoose row : genreUserList.getData()) {
+                filterList.add(new ListRowType(row.getId(), row.getName(), "genre"));
             }
         }
         filterList.add(countryBtn);
-        if (countryUserList != null ){
-            for (RowForChoose row: countryUserList.getData()){
-                filterList.add(new ListRowType(row.getName()));
+        if (countryUserList != null) {
+            for (RowForChoose row : countryUserList.getData()) {
+                filterList.add(new ListRowType(row.getId(), row.getName(), "country"));
             }
         }
-        SeekbarRowType seekbarRowType = new SeekbarRowType(1902, 2021);
+        SeekbarRowType seekbarRowType = new SeekbarRowType(years.getData().getMin(), years.getData().getMax());
         filterList.add(seekbarRowType);
-        filterAdapter = new FilterAdapter(filterList, getContext(), viewModel, getViewLifecycleOwner(), onBtnClick);
-        filerListView.setAdapter(filterAdapter);
-        filerListView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        SubmitButtonRowType submitButtonRowType = new SubmitButtonRowType();
+        filterList.add(submitButtonRowType);
+        FilterAdapter adapter = new FilterAdapter(filterList, getContext(), viewModel, getViewLifecycleOwner(), onBtnClick, years.getData());
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                FilterAdapter filterAdapter = (FilterAdapter) filterListView.getAdapter();
+                ListRowType row = (ListRowType) filterAdapter.getDataSet().get(positionStart);
+                switch (row.getType()){
+                    case "category":
+                        for (RowForChoose category: categoryUserList.getData()){
+                            if (category.getId() == row.getId()){
+                                categoryUserList.getData().remove(category);
+                                break;
+                            }
+                        }
+                        break;
+                    case "quality":
+                        for (RowForChoose quality: qualityUserList.getData()){
+                            if (quality.getId() == row.getId()){
+                                qualityUserList.getData().remove(quality);
+                                break;
+                            }
+                        }
+                        break;
+                    case "genre":
+                        for (RowForChoose genre: genreUserList.getData()){
+                            if (genre.getId() == row.getId()){
+                                genreUserList.getData().remove(genre);
+                                break;
+                            }
+                        }
+                        break;
+                    case "country":
+                        for (RowForChoose country: countryUserList.getData()){
+                            if (country.getId() == row.getId()){
+                                countryUserList.getData().remove(country);
+                                break;
+                            }
+                        }
+                        break;
+                }
+            }
+        });
+        filterListView.setAdapter(adapter);
+        filterListView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
     }
+
 }

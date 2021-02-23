@@ -22,10 +22,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import by.seobility.kinoclub.R;
+import by.seobility.kinoclub.repo.models.RowForChoose;
+import by.seobility.kinoclub.repo.models.Years;
 import by.seobility.kinoclub.ui.filter.rowtypes.ButtonRowType;
 import by.seobility.kinoclub.ui.filter.rowtypes.ListRowType;
 import by.seobility.kinoclub.ui.filter.rowtypes.RowType;
 import by.seobility.kinoclub.ui.filter.rowtypes.SeekbarRowType;
+import by.seobility.kinoclub.ui.filter.rowtypes.SubmitButtonRowType;
 import by.seobility.kinoclub.utils.OnClickListener;
 
 public class FilterAdapter extends RecyclerView.Adapter {
@@ -35,14 +38,17 @@ public class FilterAdapter extends RecyclerView.Adapter {
     private FilterViewModel viewModel;
     private LifecycleOwner lifecycleOwner;
     private OnClickListener onBtnClick;
+    private Years years;
 
     public FilterAdapter(List<RowType> dataSet, Context context, FilterViewModel viewModel,
-                         LifecycleOwner lifecycleOwner, OnClickListener onBtnClick) {
+                         LifecycleOwner lifecycleOwner, OnClickListener onBtnClick,
+                         Years years) {
         this.dataSet = dataSet;
         this.context = context;
         this.viewModel = viewModel;
         this.lifecycleOwner = lifecycleOwner;
         this.onBtnClick = onBtnClick;
+        this.years = years;
     }
 
     @Override
@@ -64,6 +70,10 @@ public class FilterAdapter extends RecyclerView.Adapter {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.row_type_seekbar, parent, false);
             return new SeekbarViewHolder(view);
+        } else if (viewType == RowType.SUBMIT_BUTTON_ROW_TYPE) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.row_type_submit_btn, parent, false);
+            return new SubmitBtnViewHolder(view);
         } else {
             return null;
         }
@@ -77,6 +87,8 @@ public class FilterAdapter extends RecyclerView.Adapter {
             ((ListViewHolder) holder).bindData((ListRowType) dataSet.get(position));
         } else if (holder instanceof SeekbarViewHolder){
             ((SeekbarViewHolder) holder).bindData((SeekbarRowType) dataSet.get(position));
+        } else if (holder instanceof SubmitBtnViewHolder){
+            ((SubmitBtnViewHolder) holder).bindData((SubmitButtonRowType) dataSet.get(position));
         }
     }
 
@@ -101,6 +113,22 @@ public class FilterAdapter extends RecyclerView.Adapter {
         }
     }
 
+    public List<RowType> getDataSet(){
+        return dataSet;
+    }
+
+    private List<RowForChoose> getParamList(String type){
+        List<RowForChoose> categoryList = new ArrayList<>();
+        for (RowType row: dataSet){
+            if (row instanceof ListRowType){
+                if (((ListRowType) row).getType().equals(type)){
+                    categoryList.add(new RowForChoose(((ListRowType) row).getId(), ((ListRowType) row).getText(), null));
+                }
+            }
+        }
+        return categoryList;
+    }
+
     public class ListViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.filter_list_item_text)
@@ -116,11 +144,15 @@ public class FilterAdapter extends RecyclerView.Adapter {
         public void bindData(RowType row) {
             filterListItemText.setText(((ListRowType) row).getText());
             filterListItemDelete.setOnClickListener(v -> {
+                int position = dataSet.indexOf(row);
+                notifyItemRangeRemoved(position, 1);
                 dataSet.remove(row);
-                notifyDataSetChanged();
+//                notifyDataSetChanged();
             });
         }
     }
+
+
 
     public class SeekbarViewHolder extends RecyclerView.ViewHolder {
 
@@ -149,12 +181,33 @@ public class FilterAdapter extends RecyclerView.Adapter {
             seekbar.setValues(values);
             seekbar.addOnChangeListener((rangeSlider, v, b) -> {
                 String min1 = rangeSlider.getValues().get(0).toString();
+                min1 = min1.substring(0, min1.length() - 2);
                 String max1 = rangeSlider.getValues().get(1).toString();
-                yearMin.setText(min1.substring(0, min1.length() - 2));
-                yearMax.setText(max1.substring(0, max1.length() - 2));
+                max1 = max1.substring(0, max1.length() - 2);
+                yearMin.setText(min1);
+                yearMax.setText(max1);
+                years.setMin(Integer.parseInt(min1));
+                years.setMax(Integer.parseInt(max1));
             });
             yearMin.setOnEditorActionListener(row.getOnEditorActionListener("min", seekbar, yearMin));
             yearMax.setOnEditorActionListener(row.getOnEditorActionListener("max", seekbar, yearMax));
+        }
+    }
+
+    public class SubmitBtnViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.submitBtn)
+        TextView submitBtn;
+
+        public SubmitBtnViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        public void bindData(SubmitButtonRowType row) {
+            submitBtn.setOnClickListener(row.getOnClickListener(getParamList("category"),
+                    getParamList("quality"), getParamList("genre"),
+                    getParamList("country"), years, onBtnClick));
         }
     }
 }

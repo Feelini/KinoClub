@@ -7,6 +7,7 @@ import by.seobility.kinoclub.repo.models.RowForChooseList;
 import by.seobility.kinoclub.repo.models.FilmsList;
 import by.seobility.kinoclub.repo.models.FilmsListQuery;
 import by.seobility.kinoclub.repo.models.SimilarFilms;
+import by.seobility.kinoclub.repo.models.YearsList;
 import retrofit2.Call;
 
 public class RepositoryImpl implements Repository{
@@ -56,5 +57,11 @@ public class RepositoryImpl implements Repository{
     public CompletableFuture<Call<RowForChooseList>> getCountries() {
         return CompletableFuture.supplyAsync(() ->
                 NetworkService.getInstance().getJSONApi().getCountries());
+    }
+
+    @Override
+    public CompletableFuture<Call<YearsList>> getYears() {
+        return CompletableFuture.supplyAsync(() ->
+                NetworkService.getInstance().getJSONApi().getYears());
     }
 }

@@ -11,6 +11,7 @@ import by.seobility.kinoclub.repo.Repository;
 import by.seobility.kinoclub.repo.models.FilmsList;
 import by.seobility.kinoclub.repo.models.FilmsListQuery;
 import by.seobility.kinoclub.repo.models.RowForChooseList;
+import by.seobility.kinoclub.repo.models.YearsList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,7 +23,7 @@ public class FilterViewModel extends AndroidViewModel {
     private MutableLiveData<RowForChooseList> qualities = new MutableLiveData<>();
     private MutableLiveData<RowForChooseList> genres = new MutableLiveData<>();
     private MutableLiveData<RowForChooseList> countries = new MutableLiveData<>();
-    private MutableLiveData<FilmsList> filmsList = new MutableLiveData<>();
+    private MutableLiveData<YearsList> years = new MutableLiveData<>();
 
     public FilterViewModel(@NonNull Application application, Repository repository) {
         super(application);
@@ -113,24 +114,24 @@ public class FilterViewModel extends AndroidViewModel {
         return countries;
     }
 
-    public void fetchFilmsList(FilmsListQuery query) {
-        repository.getFilmsList(query)
-                .thenAccept(filmsListCall -> {
-                    filmsListCall.enqueue(new Callback<FilmsList>() {
+    public void fetchYears() {
+        repository.getYears()
+                .thenAccept(yearsListCall -> {
+                    yearsListCall.enqueue(new Callback<YearsList>() {
                         @Override
-                        public void onResponse(Call<FilmsList> call, Response<FilmsList> response) {
-                            filmsList.postValue(response.body());
+                        public void onResponse(Call<YearsList> call, Response<YearsList> response) {
+                            years.postValue(response.body());
                         }
 
                         @Override
-                        public void onFailure(Call<FilmsList> call, Throwable t) {
+                        public void onFailure(Call<YearsList> call, Throwable t) {
                             t.getMessage();
                         }
                     });
                 });
     }
 
-    public LiveData<FilmsList> getFilmsList() {
-        return filmsList;
+    public LiveData<YearsList> getYears() {
+        return years;
     }
 }
