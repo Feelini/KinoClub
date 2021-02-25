@@ -120,7 +120,7 @@ public class MainFragment extends FragmentsParent {
         unbinder = ButterKnife.bind(this, view);
         viewModel.fetchTopSlider();
         viewModel.fetchSeriesUpdate();
-        viewModel.fetchFilmsList(query);
+//        viewModel.fetchFilmsList(query);
         seriesUpdate.setOnClickListener(v -> {
             seriesUpdateExpandable.toggle();
             SeriesUpdateAdapter adapter = (SeriesUpdateAdapter) viewSeriesUpdate.getAdapter();

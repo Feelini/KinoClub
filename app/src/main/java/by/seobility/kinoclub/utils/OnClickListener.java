@@ -1,6 +1,5 @@
 package by.seobility.kinoclub.utils;
 
-import by.seobility.kinoclub.repo.models.FilmsList;
 import by.seobility.kinoclub.repo.models.FilmsListQuery;
 import by.seobility.kinoclub.repo.models.RowForChooseList;
 import by.seobility.kinoclub.repo.models.Film;
