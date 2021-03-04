@@ -42,13 +42,14 @@ public class SubmitButtonRowType implements RowType{
             return dataId.deleteCharAt(dataId.length() - 1).toString();
         } else {
             return null;
+
         }
     }
 
     private String getYearsString(Years years){
         if (years != null){
             StringBuilder dataYears = new StringBuilder();
-            dataYears.append(years.getMin()).append(";").append(years.getMax());
+            dataYears.append(years.getMin()).append(",").append(years.getMax());
             return dataYears.toString();
         } else {
             return null;

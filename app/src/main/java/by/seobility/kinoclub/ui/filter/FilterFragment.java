@@ -163,7 +163,7 @@ public class FilterFragment extends Fragment {
                 filterList.add(new ListRowType(row.getId(), row.getName(), "country"));
             }
         }
-        SeekbarRowType seekbarRowType = new SeekbarRowType(years.getData().getMin(), years.getData().getMax());
+        SeekbarRowType seekbarRowType = SeekbarRowType.getInstance(years.getData().getMin(), years.getData().getMax());
         filterList.add(seekbarRowType);
         SubmitButtonRowType submitButtonRowType = new SubmitButtonRowType();
         filterList.add(submitButtonRowType);

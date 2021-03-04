@@ -13,11 +13,27 @@ import java.util.List;
 public class SeekbarRowType implements RowType {
 
     private int yearMin;
+    private int currentYearMin;
     private int yearMax;
+    private int currentYearMax;
+    private static SeekbarRowType instance;
 
-    public SeekbarRowType(int yearMin, int yearMax) {
+    public static SeekbarRowType getInstance(){
+        return instance;
+    }
+
+    public static SeekbarRowType getInstance(int yearMin, int yearMax){
+        if (instance == null){
+            instance = new SeekbarRowType(yearMin, yearMax);
+        }
+        return instance;
+    }
+
+    private SeekbarRowType(int yearMin, int yearMax) {
         this.yearMin = yearMin;
+        this.currentYearMin = yearMin;
         this.yearMax = yearMax;
+        this.currentYearMax = yearMax;
     }
 
     public int getYearMin() {
@@ -26,6 +42,30 @@ public class SeekbarRowType implements RowType {
 
     public int getYearMax() {
         return yearMax;
+    }
+
+    public void setYearMin(int yearMin) {
+        this.yearMin = yearMin;
+    }
+
+    public void setYearMax(int yearMax) {
+        this.yearMax = yearMax;
+    }
+
+    public int getCurrentYearMin() {
+        return currentYearMin;
+    }
+
+    public void setCurrentYearMin(int currentYearMin) {
+        this.currentYearMin = currentYearMin;
+    }
+
+    public int getCurrentYearMax() {
+        return currentYearMax;
+    }
+
+    public void setCurrentYearMax(int currentYearMax) {
+        this.currentYearMax = currentYearMax;
     }
 
     public TextView.OnEditorActionListener getOnEditorActionListener(String type, RangeSlider seekbar, EditText year) {

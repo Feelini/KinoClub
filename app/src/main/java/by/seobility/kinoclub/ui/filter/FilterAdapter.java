@@ -171,13 +171,15 @@ public class FilterAdapter extends RecyclerView.Adapter {
         public void bindData(SeekbarRowType row) {
             int min = row.getYearMin();
             int max = row.getYearMax();
-            yearMin.setText(String.valueOf(min));
-            yearMax.setText(String.valueOf(max));
+            int currentMax = row.getCurrentYearMax();
+            int currentMin = row.getCurrentYearMin();
+            yearMin.setText(String.valueOf(currentMin));
+            yearMax.setText(String.valueOf(currentMax));
             seekbar.setValueFrom(min);
             seekbar.setValueTo(max);
             List<Float> values = new ArrayList<>();
-            values.add((float) min);
-            values.add((float) max);
+            values.add((float) currentMin);
+            values.add((float) currentMax);
             seekbar.setValues(values);
             seekbar.addOnChangeListener((rangeSlider, v, b) -> {
                 String min1 = rangeSlider.getValues().get(0).toString();
@@ -188,6 +190,8 @@ public class FilterAdapter extends RecyclerView.Adapter {
                 yearMax.setText(max1);
                 years.setMin(Integer.parseInt(min1));
                 years.setMax(Integer.parseInt(max1));
+                SeekbarRowType.getInstance().setCurrentYearMin(Integer.parseInt(min1));
+                SeekbarRowType.getInstance().setCurrentYearMax(Integer.parseInt(max1));
             });
             yearMin.setOnEditorActionListener(row.getOnEditorActionListener("min", seekbar, yearMin));
             yearMax.setOnEditorActionListener(row.getOnEditorActionListener("max", seekbar, yearMax));
