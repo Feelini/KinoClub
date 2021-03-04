@@ -121,6 +121,7 @@ public class FilterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
         viewModel.fetchYears();
+        filterClose.setOnClickListener(v -> onBtnClick.onFilterClose());
     }
 
     @Override

@@ -16,4 +16,5 @@ public interface OnClickListener {
     void onGenreAdd(RowForChooseList genres);
     void onCountriesAdd(RowForChooseList countries);
     void onFilterConfirm(FilmsListQuery query);
+    void onFilterClose();
 }

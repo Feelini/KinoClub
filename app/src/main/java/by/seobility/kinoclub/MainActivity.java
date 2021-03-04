@@ -20,20 +20,22 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        if (savedInstanceState == null) {
+//        if (savedInstanceState == null) {
             addMainFragment();
-        }
+//        }
     }
 
     private void addMainFragment() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, MainFragment.getInstance(this))
+                .addToBackStack(null)
                 .commit();
     }
 
     private void addMainFragment(FilmsListQuery query) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, MainFragment.getInstance(this, query))
+                .addToBackStack(null)
                 .commit();
     }
 
@@ -61,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private void addChooseListFragment(RowForChooseList rowForChooseList, String type) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, ChooseListFragment.getInstance(rowForChooseList, type))
-                .addToBackStack(null)
                 .commit();
     }
 
@@ -118,5 +119,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     public void onFilterConfirm(FilmsListQuery query) {
         addMainFragment(query);
+    }
+
+    @Override
+    public void onFilterClose() {
+        addMainFragment();
     }
 }

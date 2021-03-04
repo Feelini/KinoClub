@@ -103,14 +103,25 @@ public class ChooseListAdapter extends RecyclerView.Adapter<ChooseListAdapter.Ch
 
         public void bindData(RowForChoose rowForChoose) {
             rowName.setText(rowForChoose.getName());
-            checkRow.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked) {
-                    checkedRowForChooses.add(rowForChoose);
-                } else {
+            checkRow.setChecked(checkedRowForChooses.contains(rowForChoose));
+            itemView.setOnClickListener(v -> {
+                if (checkedRowForChooses.contains(rowForChoose)) {
                     checkedRowForChooses.remove(rowForChoose);
+                    checkRow.setChecked(false);
+                } else {
+                    checkedRowForChooses.add(rowForChoose);
+                    checkRow.setChecked(true);
                 }
             });
-            itemView.setOnClickListener(v -> checkRow.setChecked(!checkRow.isChecked()));
+            checkRow.setOnClickListener(v -> {
+                if (checkedRowForChooses.contains(rowForChoose)) {
+                    checkedRowForChooses.remove(rowForChoose);
+                    checkRow.setChecked(false);
+                } else {
+                    checkedRowForChooses.add(rowForChoose);
+                    checkRow.setChecked(true);
+                }
+            });
         }
     }
 }
