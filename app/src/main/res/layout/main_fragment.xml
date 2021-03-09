@@ -29,8 +29,8 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <ScrollView
-        android:id="@+id/scroll"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -215,13 +215,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp20"
-                app:layout_constraintStart_toStartOf="@id/rootView"
-                app:layout_constraintEnd_toEndOf="@id/rootView"
-                app:layout_constraintTop_toBottomOf="@id/order_by_spinner"
-                app:layout_constraintBottom_toBottomOf="@id/rootView"/>
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/order"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

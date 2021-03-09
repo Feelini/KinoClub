@@ -206,7 +206,12 @@ public class MainFragment extends FragmentsParent {
     private void showFilmsList(FilmsList filmsList) {
         filmsListAdapter = new FilmsListAdapter(getContext(), filmsList.getData(), (OnClickListener) getContext(), getBaseUrl());
         filmsListView.setAdapter(filmsListAdapter);
-        filmsListView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        filmsListView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
         filmsListView.setNestedScrollingEnabled(false);
     }
 }
