@@ -147,7 +147,7 @@ public class FilterAdapter extends RecyclerView.Adapter {
                 int position = dataSet.indexOf(row);
                 notifyItemRangeRemoved(position, 1);
                 dataSet.remove(row);
-//                notifyDataSetChanged();
+                notifyDataSetChanged();
             });
         }
     }
@@ -181,6 +181,8 @@ public class FilterAdapter extends RecyclerView.Adapter {
             values.add((float) currentMin);
             values.add((float) currentMax);
             seekbar.setValues(values);
+            years.setMin(currentMin);
+            years.setMax(currentMax);
             seekbar.addOnChangeListener((rangeSlider, v, b) -> {
                 String min1 = rangeSlider.getValues().get(0).toString();
                 min1 = min1.substring(0, min1.length() - 2);
