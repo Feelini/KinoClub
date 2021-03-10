@@ -104,6 +104,7 @@ public class FilterFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         ViewModelFactory viewModelFactory = new ViewModelFactory(getActivity().getApplication());
         viewModel = new ViewModelProvider(this, viewModelFactory).get(FilterViewModel.class);
     }

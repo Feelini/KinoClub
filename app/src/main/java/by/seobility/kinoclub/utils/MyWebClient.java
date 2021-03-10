@@ -30,7 +30,7 @@ public class MyWebClient extends WebChromeClient {
         ((FrameLayout) activity.getWindow().getDecorView()).removeView(this.customView);
         this.customView = null;
         activity.getWindow().getDecorView().setSystemUiVisibility(this.originalSystemUiVisibility);
-        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         this.customViewCallback.onCustomViewHidden();
         this.customViewCallback = null;
     }
@@ -42,7 +42,7 @@ public class MyWebClient extends WebChromeClient {
         }
         this.customView = paramView;
         this.originalSystemUiVisibility = activity.getWindow().getDecorView().getSystemUiVisibility();
-        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         this.customViewCallback = paramCustomViewCallback;
         ((FrameLayout) activity.getWindow().getDecorView()).addView(this.customView, new FrameLayout.LayoutParams(-1, -1));
         activity.getWindow().getDecorView().setSystemUiVisibility(3846);

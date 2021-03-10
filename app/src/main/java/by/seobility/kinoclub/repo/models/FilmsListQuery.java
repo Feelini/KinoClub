@@ -94,4 +94,8 @@ public class FilmsListQuery {
     public void setYear(String year) {
         this.year = year;
     }
+
+    public void nextPage(){
+        this.page++;
+    }
 }

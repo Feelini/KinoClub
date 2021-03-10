@@ -1,6 +1,7 @@
 package by.seobility.kinoclub.ui.main;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -59,6 +60,8 @@ public class MainFragment extends FragmentsParent {
     ImageView orderAsc;
     @BindView(R.id.order)
     FrameLayout orderBy;
+    @BindView(R.id.parent)
+    NestedScrollView parent;
 
     private static MainFragment instance;
     private MainFragmentViewModel viewModel;
@@ -67,6 +70,7 @@ public class MainFragment extends FragmentsParent {
     private SeriesUpdateAdapter seriesUpdateAdapter;
     private FilmsListAdapter filmsListAdapter;
     private OnClickListener onClickListener;
+    private static String type;
     private static FilmsListQuery query = new FilmsListQuery(null, 1, "updated", "desc", null, null, null, null, null);
 
     public static MainFragment getInstance(OnClickListener onClickListener) {
@@ -88,9 +92,13 @@ public class MainFragment extends FragmentsParent {
         this.onClickListener = onClickListener;
     }
 
+    public MainFragment() {
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        setRetainInstance(true);
         ViewModelFactory viewModelFactory = new ViewModelFactory(getActivity().getApplication());
         viewModel = new ViewModelProvider(this, viewModelFactory).get(MainFragmentViewModel.class);
     }
@@ -120,7 +128,6 @@ public class MainFragment extends FragmentsParent {
         unbinder = ButterKnife.bind(this, view);
         viewModel.fetchTopSlider();
         viewModel.fetchSeriesUpdate();
-//        viewModel.fetchFilmsList(query);
         seriesUpdate.setOnClickListener(v -> {
             seriesUpdateExpandable.toggle();
             SeriesUpdateAdapter adapter = (SeriesUpdateAdapter) viewSeriesUpdate.getAdapter();
@@ -204,14 +211,29 @@ public class MainFragment extends FragmentsParent {
     }
 
     private void showFilmsList(FilmsList filmsList) {
-        filmsListAdapter = new FilmsListAdapter(getContext(), filmsList.getData(), (OnClickListener) getContext(), getBaseUrl());
+        if (type == null) {
+            filmsListAdapter = FilmsListAdapter.getInstance(getContext(), (OnClickListener) getContext(), getBaseUrl(), filmsList.getData());
+        } else {
+            filmsListAdapter = FilmsListAdapter.getInstance(getContext(), (OnClickListener) getContext(), getBaseUrl());
+            filmsListAdapter.addFilms(filmsList.getData());
+            type = null;
+        }
+//            type = null;
+//        } else {
+//            filmsListAdapter = FilmsListAdapter.getInstance(getContext(), (OnClickListener) getContext(), getBaseUrl());
+//            filmsListAdapter.addFilms(filmsList.getData());
+//        }
         filmsListView.setAdapter(filmsListAdapter);
-        filmsListView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false){
-            @Override
-            public boolean canScrollVertically() {
-                return false;
+        filmsListView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        parent.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if(v.getChildAt(v.getChildCount() - 1) != null) {
+                if ((scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight())) &&
+                        scrollY > oldScrollY) {
+                    query.nextPage();
+                    type = "add";
+                    viewModel.fetchFilmsList(query);
+                }
             }
         });
-        filmsListView.setNestedScrollingEnabled(false);
     }
 }

@@ -13,26 +13,52 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import by.seobility.kinoclub.R;
 import by.seobility.kinoclub.repo.models.Film;
+import by.seobility.kinoclub.repo.models.FilmsListQuery;
 import by.seobility.kinoclub.utils.OnClickListener;
 
 public class FilmsListAdapter extends RecyclerView.Adapter<FilmsListAdapter.FilmsListViewHolder> {
 
-    private List<Film> films;
+    private List<Film> films = new ArrayList<>();
     private String baseUrl;
     private Context context;
-    OnClickListener onClickListener;
+    private OnClickListener onClickListener;
+    public static FilmsListAdapter instance;
 
-    public FilmsListAdapter(Context context, List<Film> films, OnClickListener onClickListener, String baseUrl) {
-        this.films = films;
+    public static FilmsListAdapter getInstance(Context context, OnClickListener onClickListener, String baseUrl){
+        if (instance == null){
+            instance = new FilmsListAdapter(context, onClickListener, baseUrl);
+        }
+        return instance;
+    }
+
+    public static FilmsListAdapter getInstance(Context context, OnClickListener onClickListener, String baseUrl, List<Film> films){
+        instance = new FilmsListAdapter(context, onClickListener, baseUrl, films);
+        return instance;
+    }
+
+    public void addFilms(List<Film> films){
+        this.films.addAll(films);
+        notifyDataSetChanged();
+    }
+
+    private FilmsListAdapter(Context context, OnClickListener onClickListener, String baseUrl) {
         this.context = context;
         this.onClickListener = onClickListener;
         this.baseUrl = baseUrl;
+    }
+
+    private FilmsListAdapter(Context context, OnClickListener onClickListener, String baseUrl, List<Film> films) {
+        this.context = context;
+        this.onClickListener = onClickListener;
+        this.baseUrl = baseUrl;
+        this.films = films;
     }
 
     @NonNull
