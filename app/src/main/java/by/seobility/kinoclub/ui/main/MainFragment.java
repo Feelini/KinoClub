@@ -1,5 +1,7 @@
 package by.seobility.kinoclub.ui.main;
 
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.ViewModelProvider;
@@ -37,7 +39,10 @@ import by.seobility.kinoclub.utils.OnClickListener;
 import by.seobility.kinoclub.utils.ViewModelFactory;
 
 public class MainFragment extends FragmentsParent {
-
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.search)
+    SearchView search;
     @BindView(R.id.top_slider)
     RecyclerView viewTopSlider;
     @BindView(R.id.series_update_list)
@@ -117,15 +122,45 @@ public class MainFragment extends FragmentsParent {
         );
         viewModel.getFilmsList().observe(
                 getViewLifecycleOwner(),
-                this::showFilmsList
+                filmsList -> {
+                    query.setSearch(null);
+                    showFilmsList(filmsList);
+                }
         );
         return inflater.inflate(R.layout.main_fragment, container, false);
+    }
+
+    private void setSearchViewStyle(){
+        SearchView.SearchAutoComplete searchAutoComplete = search.findViewById(R.id.search_src_text);
+        ImageView searchIcon = search.findViewById(R.id.search_button);
+        ImageView closeIcon = search.findViewById(R.id.search_close_btn);
+        searchIcon.setColorFilter(getResources().getColor(R.color.orange));
+        closeIcon.setColorFilter(getResources().getColor(R.color.orange));
+        searchAutoComplete.setHintTextColor(getResources().getColor(R.color.white));
+        searchAutoComplete.setTextColor(getResources().getColor(android.R.color.white));
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
+        setSearchViewStyle();
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String queryText) {
+                query.setSearch(queryText);
+                viewModel.fetchFilmsList(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.equals("")){
+                    viewModel.fetchFilmsList(query);
+                }
+                return false;
+            }
+        });
         viewModel.fetchTopSlider();
         viewModel.fetchSeriesUpdate();
         seriesUpdate.setOnClickListener(v -> {
@@ -218,20 +253,17 @@ public class MainFragment extends FragmentsParent {
             filmsListAdapter.addFilms(filmsList.getData());
             type = null;
         }
-//            type = null;
-//        } else {
-//            filmsListAdapter = FilmsListAdapter.getInstance(getContext(), (OnClickListener) getContext(), getBaseUrl());
-//            filmsListAdapter.addFilms(filmsList.getData());
-//        }
         filmsListView.setAdapter(filmsListAdapter);
         filmsListView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         parent.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             if(v.getChildAt(v.getChildCount() - 1) != null) {
                 if ((scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight())) &&
                         scrollY > oldScrollY) {
-                    query.nextPage();
-                    type = "add";
-                    viewModel.fetchFilmsList(query);
+                    if (search.getQuery().toString().equals("")){
+                        query.nextPage();
+                        type = "add";
+                        viewModel.fetchFilmsList(query);
+                    }
                 }
             }
         });

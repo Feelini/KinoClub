@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_grey"
+    android:paddingBottom="@dimen/dp20"
     tools:context=".ui.main.MainFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -26,6 +27,15 @@
             android:textAllCaps="true"
             android:textColor="@color/orange"
             android:textSize="@dimen/toolbar_text_size" />
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/dp20"
+            android:textColorHint="@color/white"
+            android:queryHint="@string/default_search"/>
 
     </androidx.appcompat.widget.Toolbar>
 
