@@ -41,7 +41,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     private void addFilmViewerFragment(Film film) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, FilmViewerFragment.getInstance(film))
+                .hide(MainFragment.getInstance())
+                .add(R.id.container, FilmViewerFragment.getInstance(film))
                 .addToBackStack(null)
                 .commit();
     }

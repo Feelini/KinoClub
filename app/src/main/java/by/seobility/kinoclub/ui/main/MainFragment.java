@@ -82,6 +82,10 @@ public class MainFragment extends FragmentsParent {
     private static String type;
     private static FilmsListQuery query = new FilmsListQuery(null, 1, "updated", "desc", null, null, null, null, null);
 
+    public static MainFragment getInstance() {
+        return instance;
+    }
+
     public static MainFragment getInstance(OnClickListener onClickListener) {
         if (instance == null) {
             instance = new MainFragment(onClickListener);
@@ -210,18 +214,22 @@ public class MainFragment extends FragmentsParent {
                                        int selectedItemPosition, long selectedId) {
                 switch (selectedItemPosition){
                     case 0:
+                        query.setPage(1);
                         query.setOrderby("updated");
                         viewModel.fetchFilmsList(query);
                         break;
                     case 1:
+                        query.setPage(1);
                         query.setOrderby("year");
                         viewModel.fetchFilmsList(query);
                         break;
                     case 2:
+                        query.setPage(1);
                         query.setOrderby("rating");
                         viewModel.fetchFilmsList(query);
                         break;
                     case 3:
+                        query.setPage(1);
                         query.setOrderby("view");
                         viewModel.fetchFilmsList(query);
                         break;
