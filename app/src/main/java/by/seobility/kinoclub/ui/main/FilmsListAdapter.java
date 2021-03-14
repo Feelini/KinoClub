@@ -48,6 +48,11 @@ public class FilmsListAdapter extends RecyclerView.Adapter<FilmsListAdapter.Film
         notifyDataSetChanged();
     }
 
+    public void clearList(){
+        this.films = new ArrayList<>();
+        notifyDataSetChanged();
+    }
+
     private FilmsListAdapter(Context context, OnClickListener onClickListener, String baseUrl) {
         this.context = context;
         this.onClickListener = onClickListener;

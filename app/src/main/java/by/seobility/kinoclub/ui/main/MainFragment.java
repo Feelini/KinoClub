@@ -36,6 +36,7 @@ import by.seobility.kinoclub.repo.models.FilmsList;
 import by.seobility.kinoclub.repo.models.FilmsListQuery;
 import by.seobility.kinoclub.utils.FragmentsParent;
 import by.seobility.kinoclub.utils.OnClickListener;
+import by.seobility.kinoclub.utils.Preloader;
 import by.seobility.kinoclub.utils.ViewModelFactory;
 
 public class MainFragment extends FragmentsParent {
@@ -75,6 +76,9 @@ public class MainFragment extends FragmentsParent {
     private SeriesUpdateAdapter seriesUpdateAdapter;
     private FilmsListAdapter filmsListAdapter;
     private OnClickListener onClickListener;
+    private Preloader preloader;
+    private boolean addMore = true;
+    private static boolean newFilter = false;
     private static String type;
     private static FilmsListQuery query = new FilmsListQuery(null, 1, "updated", "desc", null, null, null, null, null);
 
@@ -89,6 +93,7 @@ public class MainFragment extends FragmentsParent {
         if (instance == null) {
             instance = new MainFragment(onClickListener);
         }
+        newFilter = true;
         query = newQuery;
         return instance;
     }
@@ -103,7 +108,6 @@ public class MainFragment extends FragmentsParent {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setRetainInstance(true);
         ViewModelFactory viewModelFactory = new ViewModelFactory(getActivity().getApplication());
         viewModel = new ViewModelProvider(this, viewModelFactory).get(MainFragmentViewModel.class);
     }
@@ -123,7 +127,8 @@ public class MainFragment extends FragmentsParent {
         viewModel.getFilmsList().observe(
                 getViewLifecycleOwner(),
                 filmsList -> {
-                    query.setSearch(null);
+                    addMore = filmsList.getData().size() != 0;
+                    if (!addMore) preloader.hidePreloader(); else preloader.showPreloader();
                     showFilmsList(filmsList);
                 }
         );
@@ -144,11 +149,14 @@ public class MainFragment extends FragmentsParent {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
+        preloader = new Preloader(getActivity(), R.id.preloader_container);
         setSearchViewStyle();
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String queryText) {
+                filmsListAdapter.clearList();
                 query.setSearch(queryText);
+                query.setPage(1);
                 viewModel.fetchFilmsList(query);
                 return false;
             }
@@ -156,6 +164,9 @@ public class MainFragment extends FragmentsParent {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.equals("")){
+                    filmsListAdapter.clearList();
+                    query.setPage(1);
+                    query.setSearch(null);
                     viewModel.fetchFilmsList(query);
                 }
                 return false;
@@ -246,6 +257,9 @@ public class MainFragment extends FragmentsParent {
     }
 
     private void showFilmsList(FilmsList filmsList) {
+        if (!search.getQuery().toString().equals("")){
+            query.setSearch(search.getQuery().toString());
+        }
         if (type == null) {
             filmsListAdapter = FilmsListAdapter.getInstance(getContext(), (OnClickListener) getContext(), getBaseUrl(), filmsList.getData());
         } else {
@@ -259,7 +273,7 @@ public class MainFragment extends FragmentsParent {
             if(v.getChildAt(v.getChildCount() - 1) != null) {
                 if ((scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight())) &&
                         scrollY > oldScrollY) {
-                    if (search.getQuery().toString().equals("")){
+                    if (addMore){
                         query.nextPage();
                         type = "add";
                         viewModel.fetchFilmsList(query);
@@ -267,5 +281,9 @@ public class MainFragment extends FragmentsParent {
                 }
             }
         });
+        if (newFilter) {
+            filmsListAdapter.clearList();
+            newFilter = false;
+        }
     }
 }
