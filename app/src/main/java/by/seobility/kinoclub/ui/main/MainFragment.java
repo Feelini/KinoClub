@@ -294,4 +294,6 @@ public class MainFragment extends FragmentsParent {
             newFilter = false;
         }
     }
+
+    
 }

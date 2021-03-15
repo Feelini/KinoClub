@@ -126,4 +126,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     public void onFilterClose() {
         addMainFragment();
     }
+
+    @Override
+    public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count == 1) {
+            finishAndRemoveTask();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
